@@ -18,7 +18,7 @@
 
     </head>
     <header>
-        <div id="menu" class="ui-widget-header ui-corner-all centrar" hidden>
+        <div id="menu" class="ui-widget-header ui-corner-all centrar" hidden style="text-align: left; margin-bottom: 10px; ">
             <button id="menuinicio">Inicio</button>
             <button onclick="foco()" id="menucompras">Compras</button>
             <button onclick="foco()" id="menuventas">Ventas</button>

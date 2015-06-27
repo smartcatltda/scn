@@ -8,6 +8,7 @@ $(document).ready(function () {
     });
 
 //**********MENU**********
+    $("#menu").tabs();
     $("#menuinicio").button().click(function () {
         inicio();
     });
