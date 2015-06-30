@@ -13,31 +13,42 @@
     background:url("images/SCC-catheadmini.png");
     position: absolute;
     left:50%;
-    margin-left:-20px;
+    margin-left:20px;
     width: 40px;
     height: 36px;
+    z-index:2
 }
 
-.msj{
+.msg{
     display: none;
     font-size: 50px; 
     background-color: #692f00; 
     border-radius: 5px;
+    padding-left: 8px;
     z-index:1
 }
 
-.inicio{
+.contenido{
     width: 1024px;
     height: 475px;
-    background:url("images/SCC520-png-blanco.png");
+    background:url("images/SCC475-png-blanco-naranjo-water.png");
 }
-
+.login{
+    width: 1024px;
+    height: 375px;
+    background:url("images/SCC375-png-blanco-naranjo-water.png");
+}
+#inicio{
+    width: 1024px;
+    height: 475px;
+    background:url("images/SCC475-png-blanco-naranjo.png");
+}
 
 #login{
     margin-top: 10px;
     margin-bottom: 10px;
     padding-top: 100px;
-    padding-bottom: 100px;
+    
     color: #ffffff;
 }
 
@@ -46,7 +57,21 @@
 }
 
 #smartcat{
-    padding-top: 36px;
+    padding-top: 16px;
     font-weight: bold;
     font-size: 12px;
+}
+
+.user_icon{
+    background-position: right center;
+    background-image: url(images/user2.png);
+    background-repeat: no-repeat;
+    border-radius: 6px;
+}
+
+.pass_icon{
+    background-position: right center;
+    background-image: url(images/locked.png);
+    background-repeat: no-repeat;
+    border-radius: 6px;
 }

@@ -20,10 +20,10 @@
     <header>
         <div id="menu" class="ui-widget-header ui-corner-all centrar" hidden style="text-align: left; margin-bottom: 10px; ">
             <button id="menuinicio">Inicio</button>
-            <button onclick="foco()" id="menucompras">Compras</button>
-            <button onclick="foco()" id="menuventas">Ventas</button>
-            <button onclick="foco()" id="menuinventario">Inventario</button>
-            <button onclick="foco()" id="menureportes">Reportes</button>
+            <button id="menucompras">Compras</button>
+            <button id="menuventas">Ventas</button>
+            <button id="menuinventario">Inventario</button>
+            <button id="menureportes">Reportes</button>
             <button style="float: right" id="menusalir">Cerrar Sesión</button>
         </div>
     </header>

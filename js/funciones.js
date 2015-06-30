@@ -14,19 +14,15 @@ $(document).ready(function () {
     });
     $("#menucompras").button().click(function () {
         compras();
-        foco();
     });
     $("#menuventas").button().click(function () {
         ventas();
-        foco();
     });
     $("#menuinventario").button().click(function () {
         inventario();
-        foco();
     });
     $("#menureportes").button().click(function () {
         reportes();
-        foco();
     });
     $("#menusalir").button().click(function () {
         salir();
@@ -34,6 +30,41 @@ $(document).ready(function () {
 
 //**********CONTENIDO**********
     $("#contenido").tabs();
+
+//**********COMPRAS**********
+
+
+//**********VENTAS**********
+
+
+//**********INVENTARIO**********
+
+    //**********PRODUCTOS**********
+    $("#mp_bt_update").button().click(function () {
+        update_producto();
+    });
+    $("#mp_bt_insert").button().click(function () {
+        insert_producto();
+    });
+    //**********LINEAS**********
+    cargar_lineas_activas();
+    $("#ml_bt_update").button().click(function () {
+        update_linea();
+    });
+    $("#ml_bt_insert").button().click(function () {
+        insert_linea();
+    });
+    //**********CATEGORIAS**********
+    cargar_categorias_activas();
+    $("#mc_bt_update").button().click(function () {
+        update_categoria();
+    });
+    $("#mc_bt_insert").button().click(function () {
+        insert_categoria();
+    });
+
+//**********REPORTES**********
+
 
 //**********FOOTER**********
     $("#footer").tabs();
@@ -60,9 +91,9 @@ function conectar()
         {
             if (datos.valor == 0)
             {
-                $("#msj_login").hide();
-                $("#msj_login").html("<label>" + datos.mensaje + "</label>");
-                $("#msj_login").css("color", "#FF0000").show('pulsate', 'slow').delay(2000).hide('fade', 'slow');
+                $("#msg").hide();
+                $("#msg").html("<label>" + datos.mensaje + "</label>");
+                $("#msg").css("color", "#FF0000").show('pulsate', 'slow').delay(2000).hide('fade', 'slow');
             }
             else
             {
@@ -78,9 +109,9 @@ function conectar()
     }
     else
     {
-        $("#msj_login").hide();
-        $("#msj_login").html("<label>Ingresar Usuario y Contraseña</label>");
-        $("#msj_login").css("color", "#FF0000").show('pulsate', 'slow').delay(3000).hide('fade', 'slow');
+        $("#msg").hide();
+        $("#msg").html("<label>Ingresar Usuario y Contraseña</label>");
+        $("#msg").css("color", "#FF0000").show('pulsate', 'slow').delay(3000).hide('fade', 'slow');
     }
 }
 function verificalogin()
@@ -163,9 +194,139 @@ function reportes()
     $("#reportes").show('fast');
 }
 
+//**********COMPRAS**********
 
 
+//**********VENTAS**********
 
-function foco(e) {
-    document.getElementById(e).focus();
+
+//**********INVENTARIO**********
+
+//**********PRODUCTOS**********
+
+function update_producto() {
+
 }
+
+function insert_producto() {
+    var codigo = $("#mp_codigo_producto").val();
+    var nombre = $("#mp_nombre_producto").val();
+    var categoria = $("#mp_categoria").val();
+    var linea = $("#mp_linea").val();
+    var desc = $("#mp_descripcion_producto").val();
+    var stock = $("#mp_stock_producto").val();
+    var bajo = $("#mp_bajo_stock").val();
+    var sobre = $("#mp_sobre_stock").val();
+    
+    if (codigo != "" && nombre != "") {
+        $.post(base_url + "controlador/insert_producto", {codigo: codigo, nombre: nombre, categoria: categoria, linea: linea, desc: desc, stock: stock, bajo: bajo, sobre: sobre},
+        function (data) {
+            $("#msg").hide();
+            $("#msg").html("<label>" + data.msg + "</label>");
+            if (data.valor == 1) {
+                $("#msg").css("color", "#55FF00").show('fade', 'slow').delay(3000).hide('fade', 'slow');
+                $("#mp_codigo_producto").val("");
+                $("#mp_nombre_producto").val("");
+                $("#mp_descripcion_producto").val("");
+                $("#mp_stock_producto").val("0");
+                $("#mp_bajo_stock").val("0");
+                $("#mp_sobre_stock").val("0");
+            } else {
+                $("#msg").css("color", "#FF0000").show('pulsate', 'slow').delay(3000).hide('fade', 'slow');
+            }
+        }, "json"
+                );
+    } else {
+        $("#msg").hide();
+        $("#msg").html("<label>Ingrese Nombre y Código de Producto</label>");
+        $("#msg").css("color", "#FF0000").show('pulsate', 'slow').delay(3000).hide('fade', 'slow');
+    }
+}
+
+//**********LINEAS**********
+
+function cargar_lineas_activas()
+{
+    $.post(
+            base_url + "controlador/cargar_lineas_activas",
+            {},
+            function (ruta, datos) {
+                $("#mp_linea").html(ruta, datos);
+            });
+}
+
+function update_linea() {
+
+}
+
+function insert_linea() {
+    var nombre = $("#ml_nombre_linea").val();
+    var desc = $("#ml_descripcion_linea").val();
+    if (nombre != "") {
+        $.post(base_url + "controlador/insert_linea", {nombre: nombre, desc: desc},
+        function (data) {
+            $("#msg").hide();
+            $("#msg").html("<label>" + data.msg + "</label>");
+            if (data.valor == 1) {
+                $("#msg").css("color", "#55FF00").show('fade', 'slow').delay(3000).hide('fade', 'slow');
+                cargar_lineas_activas();
+                $("#ml_id_linea").val("");
+                $("#ml_nombre_linea").val("");
+                $("#ml_descripcion_linea").val("");
+            } else {
+                $("#msg").css("color", "#FF0000").show('pulsate', 'slow').delay(3000).hide('fade', 'slow');
+            }
+        }, "json"
+                );
+    } else {
+        $("#msg").hide();
+        $("#msg").html("<label>Ingrese Nombre de Línea</label>");
+        $("#msg").css("color", "#FF0000").show('pulsate', 'slow').delay(3000).hide('fade', 'slow');
+    }
+}
+
+//**********CATEGORIAS**********
+
+function cargar_categorias_activas()
+{
+    $.post(
+            base_url + "controlador/cargar_categorias_activas",
+            {},
+            function (ruta, datos) {
+                $("#mp_categoria").html(ruta, datos);
+            });
+}
+
+function update_categoria() {
+
+}
+
+function insert_categoria() {
+    var nombre = $("#mc_nombre_categoria").val();
+    var desc = $("#mc_descripcion_categoria").val();
+    if (nombre != "") {
+        $.post(base_url + "controlador/insert_categoria", {nombre: nombre, desc: desc},
+        function (data) {
+            $("#msg").hide();
+            $("#msg").html("<label>" + data.msg + "</label>");
+            if (data.valor == 1) {
+                $("#msg").css("color", "#55FF00").show('fade', 'slow').delay(3000).hide('fade', 'slow');
+                cargar_categorias_activas();
+                $("#mc_id_categoria").val("");
+                $("#mc_nombre_categoria").val("");
+                $("#mc_descripcion_categoria").val("");
+            } else {
+                $("#msg").css("color", "#FF0000").show('pulsate', 'slow').delay(3000).hide('fade', 'slow');
+            }
+        }, "json"
+                );
+    } else {
+        $("#msg").hide();
+        $("#msg").html("<label>Ingrese Nombre de Categoría</label>");
+        $("#msg").css("color", "#FF0000").show('pulsate', 'slow').delay(3000).hide('fade', 'slow');
+    }
+}
+
+//**********REPORTES**********
+
+
