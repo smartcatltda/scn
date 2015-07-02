@@ -40,6 +40,7 @@ $(document).ready(function () {
 //**********INVENTARIO**********
 
     //**********PRODUCTOS**********
+    cargar_productos();
     $("#mp_bt_update").button().click(function () {
         update_producto();
     });
@@ -47,6 +48,7 @@ $(document).ready(function () {
         insert_producto();
     });
     //**********LINEAS**********
+    cargar_lineas();
     cargar_lineas_activas();
     $("#ml_bt_update").button().click(function () {
         update_linea();
@@ -55,6 +57,7 @@ $(document).ready(function () {
         insert_linea();
     });
     //**********CATEGORIAS**********
+    cargar_categorias();
     cargar_categorias_activas();
     $("#mc_bt_update").button().click(function () {
         update_categoria();
@@ -68,7 +71,6 @@ $(document).ready(function () {
 
 //**********FOOTER**********
     $("#footer").tabs();
-
 });
 
 //**********LOGIN**********
@@ -204,8 +206,14 @@ function reportes()
 
 //**********PRODUCTOS**********
 
-function update_producto() {
-
+function cargar_productos()
+{
+    $.post(
+            base_url + "controlador/cargar_productos",
+            {},
+            function (ruta, datos) {
+                $("#lista_productos").html(ruta, datos);
+            });
 }
 
 function insert_producto() {
@@ -217,7 +225,7 @@ function insert_producto() {
     var stock = $("#mp_stock_producto").val();
     var bajo = $("#mp_bajo_stock").val();
     var sobre = $("#mp_sobre_stock").val();
-    
+
     if (codigo != "" && nombre != "") {
         $.post(base_url + "controlador/insert_producto", {codigo: codigo, nombre: nombre, categoria: categoria, linea: linea, desc: desc, stock: stock, bajo: bajo, sobre: sobre},
         function (data) {
@@ -243,6 +251,78 @@ function insert_producto() {
     }
 }
 
+function update_producto() {
+
+    var codigo = $("#mp_codigo_producto").val();
+    var nombre = $("#mp_nombre_producto").val();
+    var categoria = $("#mp_categoria").val();
+    var linea = $("#mp_linea").val();
+    var descripcion = $("#mp_descripcion_producto").val();
+    var bajo_stock = $("#mp_bajo_stock").val();
+    var stock = $("#mp_stock_producto").val();
+    var sobre_stock = $("#mp_sobre_stock").val();
+
+    if (codigo != "" && nombre != "") {
+        $.post(base_url + "controlador/update_producto", {codigo: codigo, nombre: nombre, categoria: categoria, linea: linea, 
+            descripcion: descripcion, bajo_stock: bajo_stock, stock: stock, sobre_stock: sobre_stock},
+        function (datos) {
+            if (datos.valor == 0) {
+                $("#msg").hide();
+                $("#msg").html("<label>Producto Modificado!</label>");
+                $("#msg").css("color", "#55FF00").show('fade', 'slow').delay(3000).hide('fade', 'slow');
+                $("#mp_codigo_producto").val("");
+                $("#mp_nombre_producto").val("");
+                $("#mp_descripcion_producto").val("");
+                $("#mp_stock_producto").val("0");
+                $("#mp_bajo_stock").val("0");
+                $("#mp_sobre_stock").val("0");
+                cargar_productos();          
+                foco('mp_codigo_producto');
+            }
+        }, "json"
+                );
+    } else {
+        $("#msg").hide();
+        $("#msg").html("<label>Seleccione un Producto para editar</label>");
+        $("#msg").css("color", "#FF0000").show('pulsate', 'slow').delay(3000).hide('fade', 'slow');
+    }
+
+}
+
+
+function  seleccionar_producto(codigo)
+{
+    var codigo = codigo;
+    $.post(base_url + "controlador/seleccionar_producto", {codigo: codigo},
+    function (datos) {
+        $("#mp_codigo_producto").val(datos.codigo);
+        $("#mp_nombre_producto").val(datos.nombre);
+        $("#mp_categoria").val(datos.categoria);
+        $("#mp_linea").val(datos.linea);
+        $("#mp_descripcion_producto").val(datos.descripcion);
+        $("#mp_bajo_stock").val(datos.bajo_stock);
+        $("#mp_stock_producto").val(datos.stock);
+        $("#mp_sobre_stock").val(datos.sobre_stock);
+        foco('mp_codigo_producto');
+    }, "json"
+            );
+}
+
+function estado_producto(codigo, estado)
+{
+    var codigo = codigo;
+    var estado = estado;
+    $.post(base_url + "controlador/estado_producto", {codigo: codigo, estado: estado},
+    function (datos) {
+        $("#msg").hide();
+        $("#msg").html("<label>" + datos.msj + "</label>");
+        $("#msg").css("color", "#55FF00").show('fade', 'slow').delay(3000).hide('fade', 'slow');
+        cargar_productos();
+        foco('mp_codigo_producto');
+    }, "json"
+            );
+}
+
 //**********LINEAS**********
 
 function cargar_lineas_activas()
@@ -254,9 +334,14 @@ function cargar_lineas_activas()
                 $("#mp_linea").html(ruta, datos);
             });
 }
-
-function update_linea() {
-
+function cargar_lineas()
+{
+    $.post(
+            base_url + "controlador/cargar_lineas",
+            {},
+            function (ruta, datos) {
+                $("#lista_lineas").html(ruta, datos);
+            });
 }
 
 function insert_linea() {
@@ -270,6 +355,7 @@ function insert_linea() {
             if (data.valor == 1) {
                 $("#msg").css("color", "#55FF00").show('fade', 'slow').delay(3000).hide('fade', 'slow');
                 cargar_lineas_activas();
+                cargar_lineas();
                 $("#ml_id_linea").val("");
                 $("#ml_nombre_linea").val("");
                 $("#ml_descripcion_linea").val("");
@@ -284,6 +370,69 @@ function insert_linea() {
         $("#msg").css("color", "#FF0000").show('pulsate', 'slow').delay(3000).hide('fade', 'slow');
     }
 }
+function update_linea()
+{
+    var id = $("#ml_id_linea").val();
+    var nombre = $("#ml_nombre_linea").val();
+    var descripcion = $("#ml_descripcion_linea").val();
+    if (id != "") {
+        if (nombre != "") {
+            $.post(base_url + "controlador/update_linea", {id: id, nombre: nombre, descripcion: descripcion},
+            function (datos) {
+                if (datos.valor == 0) {
+                    $("#msg").hide();
+                    $("#msg").html("<label>Linea Modificada!</label>");
+                    $("#msg").css("color", "#55FF00").show('fade', 'slow').delay(3000).hide('fade', 'slow');
+                    $("#ml_id_linea").val("");
+                    $("#ml_nombre_linea").val("");
+                    $("#ml_descripcion_linea").val("");
+                    cargar_lineas();
+                    cargar_lineas_activas();
+                    foco('ml_nombre_linea');
+                }
+            }, "json"
+                    );
+        } else {
+            $("#msg").hide();
+            $("#msg").html("<label>Ingrese Nombre de Linea</label>");
+            $("#msg").css("color", "#FF0000").show('pulsate', 'slow').delay(3000).hide('fade', 'slow');
+        }
+    } else {
+        $("#msg").hide();
+        $("#msg").html("<label>Seleccione una Linea para editar</label>");
+        $("#msg").css("color", "#FF0000").show('pulsate', 'slow').delay(3000).hide('fade', 'slow');
+    }
+
+}
+
+function  seleccionar_linea(id)
+{
+    var id = id;
+    $.post(base_url + "controlador/seleccionar_linea", {id: id},
+    function (datos) {
+        $("#ml_id_linea").val(datos.id);
+        $("#ml_nombre_linea").val(datos.nombre);
+        $("#ml_descripcion_linea").val(datos.descripcion);
+        foco('ml_nombre_linea');
+    }, "json"
+            );
+}
+
+function estado_linea(id, estado)
+{
+    var id = id;
+    var estado = estado;
+    $.post(base_url + "controlador/estado_linea", {id: id, estado: estado},
+    function (datos) {
+        $("#msg").hide();
+        $("#msg").html("<label>" + datos.msj + "</label>");
+        $("#msg").css("color", "#55FF00").show('fade', 'slow').delay(3000).hide('fade', 'slow');
+        cargar_lineas();
+        cargar_lineas_activas();
+        foco('ml_nombre_linea');
+    }, "json"
+            );
+}
 
 //**********CATEGORIAS**********
 
@@ -297,8 +446,14 @@ function cargar_categorias_activas()
             });
 }
 
-function update_categoria() {
-
+function cargar_categorias()
+{
+    $.post(
+            base_url + "controlador/cargar_categorias",
+            {},
+            function (ruta, datos) {
+                $("#lista_categorias").html(ruta, datos);
+            });
 }
 
 function insert_categoria() {
@@ -312,6 +467,7 @@ function insert_categoria() {
             if (data.valor == 1) {
                 $("#msg").css("color", "#55FF00").show('fade', 'slow').delay(3000).hide('fade', 'slow');
                 cargar_categorias_activas();
+                cargar_categorias();
                 $("#mc_id_categoria").val("");
                 $("#mc_nombre_categoria").val("");
                 $("#mc_descripcion_categoria").val("");
@@ -327,6 +483,74 @@ function insert_categoria() {
     }
 }
 
+function update_categoria()
+{
+    var id = $("#mc_id_categoria").val();
+    var nombre = $("#mc_nombre_categoria").val();
+    var descripcion = $("#mc_descripcion_categoria").val();
+    if (id != "") {
+        if (nombre != "") {
+            $.post(base_url + "controlador/update_categoria", {id: id, nombre: nombre, descripcion: descripcion},
+            function (datos) {
+                if (datos.valor == 0) {
+                    $("#msg").hide();
+                    $("#msg").html("<label>Categoria Modificada!</label>");
+                    $("#msg").css("color", "#55FF00").show('fade', 'slow').delay(3000).hide('fade', 'slow');
+                    $("#mc_id_categoria").val("");
+                    $("#mc_nombre_categoria").val("");
+                    $("#mc_descripcion_categoria").val("");
+                    cargar_categorias();
+                    cargar_categorias_activas();
+                    foco('mc_nombre_categoria');
+                }
+            }, "json"
+                    );
+        } else {
+            $("#msg").hide();
+            $("#msg").html("<label>Ingrese Nombre de Categoria</label>");
+            $("#msg").css("color", "#FF0000").show('pulsate', 'slow').delay(3000).hide('fade', 'slow');
+        }
+    } else {
+        $("#msg").hide();
+        $("#msg").html("<label>Seleccione una categoria para editar</label>");
+        $("#msg").css("color", "#FF0000").show('pulsate', 'slow').delay(3000).hide('fade', 'slow');
+    }
+
+}
+
+function  seleccionar_categoria(id)
+{
+    var id = id;
+    $.post(base_url + "controlador/seleccionar_categoria", {id: id},
+    function (datos) {
+        $("#mc_id_categoria").val(datos.id);
+        $("#mc_nombre_categoria").val(datos.nombre);
+        $("#mc_descripcion_categoria").val(datos.descripcion);
+        foco('mc_nombre_categoria');
+    }, "json"
+            );
+}
+
+function  estado_categoria(id, estado)
+{
+    var id = id;
+    var estado = estado;
+    $.post(base_url + "controlador/estado_categoria", {id: id, estado: estado},
+    function (datos) {
+        $("#msg").hide();
+        $("#msg").html("<label>" + datos.msj + "</label>");
+        $("#msg").css("color", "#55FF00").show('fade', 'slow').delay(3000).hide('fade', 'slow');
+        cargar_categorias();
+        cargar_categorias_activas();
+        foco('mc_nombre_categoria');
+    }, "json"
+            );
+}
+
 //**********REPORTES**********
 
 
+//**********VALIDACIONES**********
+function foco(e) {
+    document.getElementById(e).focus();
+}
