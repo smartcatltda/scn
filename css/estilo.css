@@ -38,6 +38,22 @@
     height: 375px;
     background:url("images/SCC375-png-blanco-naranjo-water.png");
 }
+
+.table-header{
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    background: #fa8728 url("images/ui-bg_highlight-soft_35_a64d02_1x100.png") 50% 50% repeat-x;
+    color: #ffffff;
+    font-family: arial;
+}
+
+.table-content{
+    border-style:  solid 1px;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    background: url("images/table.png") center top repeat;
+    color: white;
+}
 #inicio{
     width: 1024px;
     height: 475px;
@@ -48,7 +64,7 @@
     margin-top: 10px;
     margin-bottom: 10px;
     padding-top: 100px;
-    
+
     color: #ffffff;
 }
 
@@ -64,14 +80,23 @@
 
 .user_icon{
     background-position: right center;
-    background-image: url(images/user2.png);
+    background-image: url(images/user.png);
     background-repeat: no-repeat;
     border-radius: 6px;
 }
 
 .pass_icon{
     background-position: right center;
-    background-image: url(images/locked.png);
+    background-image: url(images/lock.png);
     background-repeat: no-repeat;
     border-radius: 6px;
+}
+#lista_categorias{
+    float: right;
+}
+#lista_lineas{
+    float: right;
+}
+#lista_productos{
+    float: right;
 }

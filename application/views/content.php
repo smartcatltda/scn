@@ -32,6 +32,7 @@
             </ul>
         </div>
         <div id="1-productos">
+            <div id="lista_productos"></div>
             <table cellspacing="2">
                 <thead>
                     <tr>
@@ -83,6 +84,7 @@
             </table>
         </div>
         <div id="2-lineas">
+            <div id="lista_lineas"></div>
             <table cellspacing="2">
                 <thead>
                     <tr>
@@ -114,6 +116,7 @@
             </table>
         </div>
         <div id="3-categorias">
+            <div id="lista_categorias"></div>
             <table cellspacing="2">
                 <thead>
                     <tr>
