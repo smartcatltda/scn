@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <title>SCN |</title>
+        <title>SCN | Sistema de Control Natura</title>
         <meta charset="utf-8">
 
         <script src="js/jquery.js" type="text/javascript"></script>
