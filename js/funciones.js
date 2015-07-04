@@ -47,6 +47,20 @@ $(document).ready(function () {
     $("#mp_bt_insert").button().click(function () {
         insert_producto();
     });
+    $("#mp_filtro").keyup(function(){
+		// When value of the input is not blank
+		if( $(this).val() != "")
+		{
+			// Show only matching TR, hide rest of them
+			$("#tabla_productos tbody>tr").hide();
+			$("#tabla_productos td:contains-ci('" + $(this).val() + "')").parent("tr").show();
+		}
+		else
+		{
+			// When there is no input or clean again, show everything back
+			$("#tabla_productos tbody>tr").show();
+		}
+	});
     //**********LINEAS**********
     cargar_lineas();
     cargar_lineas_activas();
@@ -263,7 +277,7 @@ function update_producto() {
     var sobre_stock = $("#mp_sobre_stock").val();
 
     if (codigo != "" && nombre != "") {
-        $.post(base_url + "controlador/update_producto", {codigo: codigo, nombre: nombre, categoria: categoria, linea: linea, 
+        $.post(base_url + "controlador/update_producto", {codigo: codigo, nombre: nombre, categoria: categoria, linea: linea,
             descripcion: descripcion, bajo_stock: bajo_stock, stock: stock, sobre_stock: sobre_stock},
         function (datos) {
             if (datos.valor == 0) {
@@ -276,7 +290,7 @@ function update_producto() {
                 $("#mp_stock_producto").val("0");
                 $("#mp_bajo_stock").val("0");
                 $("#mp_sobre_stock").val("0");
-                cargar_productos();          
+                cargar_productos();
                 foco('mp_codigo_producto');
             }
         }, "json"
@@ -554,3 +568,10 @@ function  estado_categoria(id, estado)
 function foco(e) {
     document.getElementById(e).focus();
 }
+$.extend($.expr[":"], 
+{
+    "contains-ci": function(elem, i, match, array) 
+	{
+		return (elem.textContent || elem.innerText || $(elem).text() || "").toLowerCase().indexOf((match[3] || "").toLowerCase()) >= 0;
+	}
+});

@@ -32,56 +32,56 @@
             </ul>
         </div>
         <div id="1-productos">
-            <div id="lista_productos"></div>
+
             <table cellspacing="2">
                 <thead>
                     <tr>
-                        <th colspan="2" style="text-align: right">Mantenedor de Productos</th>
+                        <th colspan="3" style="text-align: left; font-size: 16px;">Mantenedor de Productos</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
-                        <td colspan="2" style="height: 20px"></td>
+                        <td colspan="3" style="height: 5px"></td>
                     </tr>
                     <tr>
-                        <td style="text-align: right">Código: </td>
-                        <td><input type="text" id="mp_codigo_producto" placeholder="Escanee Cód Barras" style="width: 200px; text-align: center" class="rounded"/></td>
+                        <td style="text-align: left;">Código: </td>
+                        <td style="text-align: left;">Nombre: </td>
+                        <td style="text-align: left;">Descripción: </td>
+                        <td style="text-align: left;">Categoría: </td>
+                        <td style="text-align: left;">Línea: </td>
+                        <td style="text-align: left;">Stock: &nbsp; Bajo: &nbsp; Alto:</td>
+
                     </tr>
                     <tr>
-                        <td style="text-align: right">Nombre: </td>
-                        <td><input type="text" id="mp_nombre_producto" placeholder="Nombre del Poducto" style="width: 200px; text-align: center" class="rounded"/></td>
-                    </tr>
-                    <tr>
-                        <td style="text-align: right">Categoría: </td>
+                        <td><input type="text" id="mp_codigo_producto" placeholder="Escanee Cód Barras" style="width: 130px; text-align: center" class="rounded"/></td>
+                        <td><input type="text" id="mp_nombre_producto" placeholder="Nombre del Poducto" style="width: 150px; text-align: center" class="rounded"/></td>
+                        <td><input type="text" id="mp_descripcion_producto" placeholder="Ingrese Descripción" style="width: 200px; text-align: center" class="rounded"/></td>
                         <td><select class="rounded" id="mp_categoria" style="width: 200px; text-align: center"/></td>
-                    </tr>
-                    <tr>
-                        <td style="text-align: right">Línea: </td>
-                        <td><select class="rounded" id="mp_linea" style="width: 200px; text-align: center"/></td>
-                    </tr>
-                    <tr>
-                        <td style="text-align: right">Descripción: </td>
-                        <td><input type="text" id="mp_descripcion_producto" placeholder="Igrese Descripción" style="width: 200px; text-align: center" class="rounded"/></td>
-                    </tr>
-                    <tr>
-                        <td style="text-align: right">Stock: </td>
-                        <td style="text-align: right">
-                            <input type="number" value="0" id="mp_stock_producto" style="width: 40px; text-align: center" class="rounded"/>
-                            <:&nbsp;<input type="number" value="0" id="mp_bajo_stock" style="width: 40px; text-align: center" class="rounded"/>
-                            >:&nbsp;<input type="number" value="0" id="mp_sobre_stock" style="width: 40px; text-align: center" class="rounded"/>
+                        <td><select class="rounded" id="mp_linea" style="width: 100px; text-align: center"/></td>
+                        <td style="text-align: right; width: 200px;">
+                            <input type="number" value="0" id="mp_stock_producto" style="width: 40px; text-align: center" class="rounded"/>&nbsp;
+                            <input type="number" value="0" id="mp_bajo_stock" style="width: 40px; text-align: center" class="rounded"/>&nbsp;
+                            <input type="number" value="0" id="mp_sobre_stock" style="width: 40px; text-align: center" class="rounded"/>
                         </td>
                     </tr>
                     <tr>
-                        <td colspan="2" style="height: 10px"></td>
-                    </tr>
-                    <tr>
-                        <td align="right" colspan="2">
-                            <button id="mp_bt_update" style="width: 110px; text-align: center">Editar</button>
+                        <td colspan="4"></td>
+                        <td colspan="2" rowspan="2" align="right">
                             <button id="mp_bt_insert" style="width: 110px; text-align: center">Guardar</button>
+                            <button id="mp_bt_update" style="width: 110px; text-align: center">Editar</button>
                         </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2"><input type="text" id="mp_filtro" placeholder="Busqueda" value="" style="width: 290px; text-align: center" class="rounded"/></td>
+                        <td colspan="2"></td>
+                    </tr>
+                    <tr>
+                        <td colspan="6" style="height: 5px"></td>
                     </tr>
                 </tbody>
             </table>
+
+            <div id="lista_productos"></div>
         </div>
         <div id="2-lineas">
             <div id="lista_lineas"></div>

@@ -16,7 +16,8 @@
 ----------------------------------*/
 .ui-widget {
 	font-family: Verdana,Arial,sans-serif;
-	font-size: 1.1em;
+	font-size: 14px;
+        font-weight: bold;
 }
 .ui-widget .ui-widget {
 	font-size: 1em;
@@ -26,7 +27,7 @@
 .ui-widget textarea,
 .ui-widget button {
 	font-family: Verdana,Arial,sans-serif;
-	font-size: 1em;
+	font-size: 14px;
 }
 .ui-widget-content {
 	border: 1px solid #555555;
