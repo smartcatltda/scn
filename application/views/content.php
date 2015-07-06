@@ -18,11 +18,22 @@
 <div id="contenido" class="centrar" hidden>
 
     <div id="inicio"></div>
+<!--*************COMPRAS***************-->
+    <div id="compras" class="contenido" hidden>compras
+        <table>
+            <thead>
 
-    <div id="compras" class="contenido" hidden>compras</div>
+            </thead>
+            <tbody>
 
+            </tbody>
+        </table>
+    </div>
+
+<!--*************VENTAS***************-->
     <div id="ventas" class="contenido" hidden>ventas</div>
-
+    
+<!--*************INVENTARIO***************-->
     <div id="inventario" class="contenido" hidden>
         <div style="font-size: 12px;">
             <ul>
@@ -32,7 +43,6 @@
             </ul>
         </div>
         <div id="1-productos">
-
             <table cellspacing="2">
                 <thead>
                     <tr>
@@ -80,7 +90,6 @@
                     </tr>
                 </tbody>
             </table>
-
             <div id="lista_productos"></div>
         </div>
         <div id="2-lineas">
@@ -149,6 +158,7 @@
         </div>
     </div>
 
+<!--*************REPORTES***************-->
     <div id="reportes" class="contenido" hidden>reportes</div>
 
 </div>
