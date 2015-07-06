@@ -22,7 +22,7 @@
         </tr>
         <tr>
             <td>
-                <div style="width:1000px; height:325px; overflow:auto;">
+                <div style="width:1000px; height:218px; overflow:auto;">
                     <table id="tabla_productos" class="table-content" cellspacing="0" border="1" width="983" style="font-size: 12px; font-weight: normal;">
                         <?php
                         foreach ($productos as $fila):

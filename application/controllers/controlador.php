@@ -187,6 +187,7 @@ class controlador extends CI_Controller {
         }
         echo json_encode(array("msj" => $msj));
     }
+    
 
 //**********CATEGORIAS**********
 
@@ -251,6 +252,7 @@ class controlador extends CI_Controller {
         }
         echo json_encode(array("msj" => $msj));
     }
+    
 
 //**********REPORTES**********
 }

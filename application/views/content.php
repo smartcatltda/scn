@@ -23,7 +23,7 @@
 
     <div id="ventas" class="contenido" hidden>ventas</div>
 
-    <div id="inventario" class="contenido" hidden>
+    <div id="inventario" class="contablas" hidden>
         <div style="font-size: 12px;">
             <ul>
                 <li><a href="#1-productos">Productos</a></li>
@@ -53,7 +53,7 @@
 
                     </tr>
                     <tr>
-                        <td><input type="text" id="mp_codigo_producto" placeholder="Escanee Cód Barras" style="width: 130px; text-align: center" class="rounded"/></td>
+                        <td><input type="text" id="mp_codigo_producto" placeholder="Escanee Cód Barras" style="width: 130px; text-align: center" class="rounded" autofocus/></td>
                         <td><input type="text" id="mp_nombre_producto" placeholder="Nombre del Poducto" style="width: 150px; text-align: center" class="rounded"/></td>
                         <td><input type="text" id="mp_descripcion_producto" placeholder="Ingrese Descripción" style="width: 200px; text-align: center" class="rounded"/></td>
                         <td><select class="rounded" id="mp_categoria" style="width: 200px; text-align: center"/></td>
@@ -84,11 +84,14 @@
             <div id="lista_productos"></div>
         </div>
         <div id="2-lineas">
-            <div id="lista_lineas"></div>
+            <div style="float: right; margin-top: 50px">
+                <input type="text" id="ml_filtro" placeholder="Busqueda" value="" style="margin-right: 20px; width: 290px; text-align: center" class="rounded"/>
+            </div>
+            <div id="lista_lineas" class="m_lista"></div>
             <table cellspacing="2">
                 <thead>
                     <tr>
-                        <th colspan="2" style="text-align: right">Mantenedor de Líneas</th>
+                        <th colspan="2" style="text-align: left; font-size: 16px;">Mantenedor de Líneas</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -96,11 +99,11 @@
                         <td colspan="2" style="height: 20px"><input type="text" id="ml_id_linea" hidden/></td>
                     </tr>
                     <tr>
-                        <td style="text-align: right">Nombre: </td>
+                        <td style="text-align: left">Nombre: </td>
                         <td><input type="text" id="ml_nombre_linea" placeholder="Nombre Línea" style="width: 200px; text-align: center" class="rounded"/></td>
                     </tr>
                     <tr>
-                        <td style="text-align: right">Descripción: </td>
+                        <td style="text-align: left">Descripción: </td>
                         <td><input type="text" id="ml_descripcion_linea" placeholder="Ingrese Descripción" style="width: 200px; text-align: center" class="rounded"/></td>
                     </tr>
                     <tr>
@@ -116,11 +119,14 @@
             </table>
         </div>
         <div id="3-categorias">
-            <div id="lista_categorias"></div>
+            <div style="float: right; margin-top: 50px">
+                <input type="text" id="mc_filtro" placeholder="Busqueda" value="" style="margin-right: 20px; width: 290px; text-align: center" class="rounded"/>
+            </div>
+            <div id="lista_categorias" class="m_lista"></div>
             <table cellspacing="2">
                 <thead>
                     <tr>
-                        <th colspan="2" style="text-align: right">Mantenedor de Categorías</th>
+                        <th colspan="2" style="text-align: left; font-size: 16px;">Mantenedor de Categorías</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -128,11 +134,11 @@
                         <td colspan="2" style="height: 20px"><input type="text" id="mc_id_categoria" hidden/></td>
                     </tr>
                     <tr>
-                        <td style="text-align: right">Nombre: </td>
+                        <td style="text-align: left">Nombre: </td>
                         <td><input type="text" id="mc_nombre_categoria" placeholder="Nombre Categoría" style="width: 200px; text-align: center" class="rounded"/></td>
                     </tr>
                     <tr>
-                        <td style="text-align: right">Descripción: </td>
+                        <td style="text-align: left">Descripción: </td>
                         <td><input type="text" id="mc_descripcion_categoria" placeholder="Ingrese Descripción" style="width: 200px; text-align: center" class="rounded"/></td>
                     </tr>
                     <tr>

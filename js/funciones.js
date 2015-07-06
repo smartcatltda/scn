@@ -47,20 +47,80 @@ $(document).ready(function () {
     $("#mp_bt_insert").button().click(function () {
         insert_producto();
     });
-    $("#mp_filtro").keyup(function(){
-		// When value of the input is not blank
-		if( $(this).val() != "")
-		{
-			// Show only matching TR, hide rest of them
-			$("#tabla_productos tbody>tr").hide();
-			$("#tabla_productos td:contains-ci('" + $(this).val() + "')").parent("tr").show();
-		}
-		else
-		{
-			// When there is no input or clean again, show everything back
-			$("#tabla_productos tbody>tr").show();
-		}
-	});
+    //filtro por codigo de barras
+    $("#mp_codigo_producto").keyup(function () {
+        // When value of the input is not blank
+        if ($(this).val() != "")
+        {
+            // Show only matching TR, hide rest of them
+            $("#tabla_productos tbody>tr").hide();
+            $("#tabla_productos td:contains-ci('" + $(this).val() + "')").parent("tr").show();
+        }
+        else
+        {
+            // When there is no input or clean again, show everything back
+            $("#tabla_productos tbody>tr").show();
+        }
+    });
+    //filtro por palabra clave
+    $("#mp_filtro").keyup(function () {
+        // When value of the input is not blank
+        if ($(this).val() != "")
+        {
+            // Show only matching TR, hide rest of them
+            $("#tabla_productos tbody>tr").hide();
+            $("#tabla_productos td:contains-ci('" + $(this).val() + "')").parent("tr").show();
+        }
+        else
+        {
+            // When there is no input or clean again, show everything back
+            $("#tabla_productos tbody>tr").show();
+        }
+    });
+    //filtro por select categoria
+    $("#mp_categoria").change(function () {
+        // When value of the input is not blank
+        if ($(this).val() != 0)
+        {
+            var id = $(this).val();
+            var nombre = "";
+            $.post(base_url + "controlador/seleccionar_categoria",
+                    {id: id},
+            function (datos) {
+                nombre = datos.nombre;
+                $("#tabla_productos tbody>tr").hide();
+                $("#tabla_productos td:contains-ci('" + nombre + "')").parent("tr").show();
+            }, 'json');
+            // Show only matching TR, hide rest of them
+        }
+        else
+        {
+            // When there is no input or clean again, show everything back
+            $("#tabla_productos tbody>tr").show();
+        }
+    });
+    //filtro por select linea
+    $("#mp_linea").change(function () {
+        // When value of the input is not blank
+        if ($(this).val() != 0)
+        {
+            var id = $(this).val();
+            var nombre = "";
+            $.post(base_url + "controlador/seleccionar_linea",
+                    {id: id},
+            function (datos) {
+                nombre = datos.nombre;
+                $("#tabla_productos tbody>tr").hide();
+                $("#tabla_productos td:contains-ci('" + nombre + "')").parent("tr").show();
+            }, 'json');
+            // Show only matching TR, hide rest of them
+        }
+        else
+        {
+            // When there is no input or clean again, show everything back
+            $("#tabla_productos tbody>tr").show();
+        }
+    });
     //**********LINEAS**********
     cargar_lineas();
     cargar_lineas_activas();
@@ -70,6 +130,20 @@ $(document).ready(function () {
     $("#ml_bt_insert").button().click(function () {
         insert_linea();
     });
+    $("#ml_filtro").keyup(function () {
+        // When value of the input is not blank
+        if ($(this).val() != "")
+        {
+            // Show only matching TR, hide rest of them
+            $("#tabla_lineas tbody>tr").hide();
+            $("#tabla_lineas td:contains-ci('" + $(this).val() + "')").parent("tr").show();
+        }
+        else
+        {
+            // When there is no input or clean again, show everything back
+            $("#tabla_lineas tbody>tr").show();
+        }
+    });
     //**********CATEGORIAS**********
     cargar_categorias();
     cargar_categorias_activas();
@@ -78,6 +152,20 @@ $(document).ready(function () {
     });
     $("#mc_bt_insert").button().click(function () {
         insert_categoria();
+    });
+    $("#mc_filtro").keyup(function () {
+        // When value of the input is not blank
+        if ($(this).val() != "")
+        {
+            // Show only matching TR, hide rest of them
+            $("#tabla_categorias tbody>tr").hide();
+            $("#tabla_categorias td:contains-ci('" + $(this).val() + "')").parent("tr").show();
+        }
+        else
+        {
+            // When there is no input or clean again, show everything back
+            $("#tabla_categorias tbody>tr").show();
+        }
     });
 
 //**********REPORTES**********
@@ -253,6 +341,7 @@ function insert_producto() {
                 $("#mp_stock_producto").val("0");
                 $("#mp_bajo_stock").val("0");
                 $("#mp_sobre_stock").val("0");
+                cargar_productos();
             } else {
                 $("#msg").css("color", "#FF0000").show('pulsate', 'slow').delay(3000).hide('fade', 'slow');
             }
@@ -568,10 +657,11 @@ function  estado_categoria(id, estado)
 function foco(e) {
     document.getElementById(e).focus();
 }
-$.extend($.expr[":"], 
-{
-    "contains-ci": function(elem, i, match, array) 
-	{
-		return (elem.textContent || elem.innerText || $(elem).text() || "").toLowerCase().indexOf((match[3] || "").toLowerCase()) >= 0;
-	}
-});
+
+$.extend($.expr[":"],
+        {
+            "contains-ci": function (elem, i, match, array)
+            {
+                return (elem.textContent || elem.innerText || $(elem).text() || "").toLowerCase().indexOf((match[3] || "").toLowerCase()) >= 0;
+            }
+        });
