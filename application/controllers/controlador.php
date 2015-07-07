@@ -187,7 +187,6 @@ class controlador extends CI_Controller {
         }
         echo json_encode(array("msj" => $msj));
     }
-    
 
 //**********CATEGORIAS**********
 
@@ -252,60 +251,143 @@ class controlador extends CI_Controller {
         }
         echo json_encode(array("msj" => $msj));
     }
-    
 
 //**********REPORTES**********
-    
-    function informe_diario() {
+
+    function reporte_diario() {
         $tipo = $this->input->post('tipo');
         $fecha = $this->input->post('fecha');
-//        list($dia, $mes, $ano) = explode("/", $fecha);
         if ($tipo == "dc") {
-            $datos["diario_dc"] = $this->modelo->diario_keys($fecha)->result();
-            $datos["cantidad"] = $this->modelo->diario_keys($fecha)->num_rows();
+            $datos["diario_dc"] = $this->modelo->diario_dc($fecha)->result();
+            $datos["cantidad"] = $this->modelo->diario_dc($fecha)->num_rows();
             $this->load->view("r_detalle_compras", $datos);
         } else {
-            if ($tipo == "a") {
-                $datos["diario_aumentos"] = $this->modelo->diario_aumentos($dia, $mes, $ano)->result();
-                $datos["cantidad"] = $this->modelo->diario_aumentos($dia, $mes, $ano)->num_rows();
-                $this->load->view("diario_aumentos", $datos);
+            if ($tipo == "dv") {
+                $datos["diario_dv"] = $this->modelo->diario_dv($fecha)->result();
+                $datos["cantidad"] = $this->modelo->diario_dv($fecha)->num_rows();
+                $this->load->view("r_detalle_ventas", $datos);
             } else {
-                if ($tipo == "p") {
-                    $datos["diario_pagos"] = $this->modelo->diario_pagos($dia, $mes, $ano)->result();
-                    $datos["cantidad"] = $this->modelo->diario_pagos($dia, $mes, $ano)->num_rows();
-                    $this->load->view("diario_pagos", $datos);
+                if ($tipo == "rc") {
+                    $datos["diario_rc"] = $this->modelo->diario_rc($fecha)->result();
+                    $datos["cantidad"] = $this->modelo->diario_rc($fecha)->num_rows();
+                    $this->load->view("r_resumen_compras", $datos);
                 } else {
-                    if ($tipo == "rp") {
-                        $datos["diario_resumen_pagos"] = $this->modelo->diario_resumen_pagos($dia, $mes, $ano)->result();
-                        $datos["cantidad"] = $this->modelo->diario_resumen_pagos($dia, $mes, $ano)->num_rows();
-                        $this->load->view("diario_resumen_pagos", $datos);
+                    if ($tipo == "rv") {
+                        $datos["diario_rv"] = $this->modelo->diario_rv($fecha)->result();
+                        $datos["cantidad"] = $this->modelo->diario_rv($fecha)->num_rows();
+                        $this->load->view("r_resumen_ventas", $datos);
                     } else {
-                        if ($tipo == "g") {
-                            $datos["diario_gastos"] = $this->modelo->diario_gastos($dia, $mes, $ano)->result();
-                            $datos["cantidad"] = $this->modelo->diario_gastos($dia, $mes, $ano)->num_rows();
-                            $this->load->view("diario_gastos", $datos);
+                        if ($tipo == "pc") {
+                            $datos["diario_pc"] = $this->modelo->diario_pc($fecha)->result();
+                            $datos["cantidad"] = $this->modelo->diario_pc($fecha)->num_rows();
+                            $this->load->view("r_productos_comprados", $datos);
                         } else {
-                            if ($tipo == "rg") {
-                                $datos["diario_resumen_gastos"] = $this->modelo->diario_resumen_gastos($dia, $mes, $ano)->result();
-                                $datos["cantidad"] = $this->modelo->diario_resumen_gastos($dia, $mes, $ano)->num_rows();
-                                $this->load->view("diario_resumen_gastos", $datos);
-                            } else {
-                                if ($tipo == "c") {
-                                    $datos["diario_cierres"] = $this->modelo->diario_cierres($dia, $mes, $ano)->result();
-                                    $datos["cantidad"] = $this->modelo->diario_cierres($dia, $mes, $ano)->num_rows();
-                                    $this->load->view("diario_cierres", $datos);
-                                } else {
-                                    $datos["diario_resumen_cierres"] = $this->modelo->diario_resumen_cierres($dia, $mes, $ano)->result();
-                                    $datos["cantidad"] = $this->modelo->diario_resumen_cierres($dia, $mes, $ano)->num_rows();
-                                    $this->load->view("diario_resumen_cierres", $datos);
-                                }
-                            }
+                            $datos["diario_pv"] = $this->modelo->diario_pv($fecha)->result();
+                            $datos["cantidad"] = $this->modelo->diario_pv($fecha)->num_rows();
+                            $this->load->view("r_productos_vendidos", $datos);
                         }
                     }
                 }
             }
         }
     }
+
+    function reporte_mensual() {
+        $tipo = $this->input->post('tipo');
+        $fecha = $this->input->post('fecha');
+        list($ano, $mes, $dia) = explode("/", $fecha);
+        
+
+        if ($tipo == "rc") {
+            $datos["mensual_rc"] = $this->modelo->mensual_rc($mes, $ano)->result();
+            $datos["cantidad"] = $this->modelo->mensual_rc($mes, $ano)->num_rows();
+            $this->load->view("r_resumen_compras", $datos);
+        } else {
+            if ($tipo == "rv") {
+                $datos["mensual_rv"] = $this->modelo->mensual_rv($mes, $ano)->result();
+                $datos["cantidad"] = $this->modelo->mensual_rv($mes, $ano)->num_rows();
+                $this->load->view("r_resumen_ventas", $datos);
+            } else {
+                if ($tipo == "pc") {
+                    $datos["mensual_pc"] = $this->modelo->mensual_pc($mes, $ano)->result();
+                    $datos["cantidad"] = $this->modelo->mensual_pc($mes, $ano)->num_rows();
+                    $this->load->view("r_productos_comprados", $datos);
+                } else {
+                    $datos["mensual_pv"] = $this->modelo->mensual_pv($mes, $ano)->result();
+                    $datos["cantidad"] = $this->modelo->mensual_pv($mes, $ano)->num_rows();
+                    $this->load->view("r_productos_vendidos", $datos);
+                }
+            }
+        }
+    }
+
+    function reporte_anual() {
+        $tipo = $this->input->post('tipo');
+        $fecha = $this->input->post('fecha');
+        list($ano, $mes, $dia) = explode("/", $fecha);
+
+        if ($tipo == "rc") {
+            $datos["anual_rc"] = $this->modelo->anual_rc($ano)->result();
+            $datos["cantidad"] = $this->modelo->anual_rc($ano)->num_rows();
+            $this->load->view("r_resumen_compras", $datos);
+        } else {
+            if ($tipo == "rv") {
+                $datos["anual_rv"] = $this->modelo->anual_rv($ano)->result();
+                $datos["cantidad"] = $this->modelo->anual_rv($ano)->num_rows();
+                $this->load->view("r_resumen_ventas", $datos);
+            } else {
+                if ($tipo == "pc") {
+                    $datos["anual_pc"] = $this->modelo->anual_pc($ano)->result();
+                    $datos["cantidad"] = $this->modelo->anual_pc($ano)->num_rows();
+                    $this->load->view("r_productos_comprados", $datos);
+                } else {
+                    $datos["anual_pv"] = $this->modelo->anual_pv($ano)->result();
+                    $datos["cantidad"] = $this->modelo->anual_pv($ano)->num_rows();
+                    $this->load->view("r_productos_vendidos", $datos);
+                }
+            }
+        }
+    }
+    
+    function reporte_bajo() {
+            $datos["r_bajo"] = $this->modelo->r_bajo()->result();
+            $datos["cantidad"] = $this->modelo->r_bajo()->num_rows();
+            $this->load->view("r_alertas_stock", $datos);
+    }
+    
+    function reporte_sobre() {
+            $datos["r_sobre"] = $this->modelo->r_sobre()->result();
+            $datos["cantidad"] = $this->modelo->r_sobre()->num_rows();
+            $this->load->view("r_alertas_stock", $datos);
+    }
+    
+    
+//    function reporte_semanal() {
+//        $tipo = $this->input->post('tipo');
+//        $fecha = $this->input->post('fecha');
+//
+//        if ($tipo == "rc") {
+//            $datos["semanal_rc"] = $this->modelo->semanal_rc()->result();
+//            $datos["cantidad"] = $this->modelo->semanal_rc()->num_rows();
+//            $this->load->view("r_resumen_compras", $datos);
+//        } else {
+//            if ($tipo == "rv") {
+//                $datos["semanal_rv"] = $this->modelo->semanal_rv($fecha)->result();
+//                $datos["cantidad"] = $this->modelo->semanal_rv($fecha)->num_rows();
+//                $this->load->view("r_resumen_ventas", $datos);
+//            } else {
+//                if ($tipo == "pc") {
+//                    $datos["semanal_pc"] = $this->modelo->semanal_pc($fecha)->result();
+//                    $datos["cantidad"] = $this->modelo->semanal_pc($fecha)->num_rows();
+//                    $this->load->view("r_productos_comprados", $datos);
+//                } else {
+//                    $datos["semanal_pv"] = $this->modelo->semanal_pv($fecha)->result();
+//                    $datos["cantidad"] = $this->modelo->semanal_pv($fecha)->num_rows();
+//                    $this->load->view("r_productos_vendidos", $datos);
+//                }
+//            }
+//        }
+//    }
     
 }
 

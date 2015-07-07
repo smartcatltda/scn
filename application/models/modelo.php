@@ -201,4 +201,199 @@ class modelo extends CI_Model {
     }
 
 //**********REPORTES**********
+
+    //REPORTES DIARIOS
+    
+    function diario_dc($fecha) {
+        $this->db->select('*');
+        $this->db->from('detalle_compra');
+        $this->db->join('compra', 'detalle_compra.id_compra = compra.id_compra');
+        $this->db->join('producto', 'detalle_compra.codigo_producto = producto.codigo_producto');
+        $this->db->join('categoria', 'producto.id_categoria = categoria.id_categoria');
+        $this->db->join('linea', 'producto.id_linea = linea.id_linea');
+        $this->db->where('compra.fecha_compra', $fecha);
+        return $this->db->get();
+    }
+
+    function diario_rc($fecha) {
+        $this->db->select('*');
+        $this->db->select_sum('cantidad', 'productos');
+        $this->db->from('compra');
+        $this->db->join('detalle_compra', 'compra.id_compra = detalle_compra.id_compra');
+        $this->db->where('fecha_compra', $fecha);
+        $this->db->group_by('compra.id_compra');
+        return $this->db->get();
+    }
+
+    function diario_dv($fecha) {
+        $this->db->select('*');
+        $this->db->from('detalle_venta');
+        $this->db->join('venta', 'detalle_venta.id_venta = venta.id_venta');
+        $this->db->join('producto', 'detalle_venta.codigo_producto = producto.codigo_producto');
+        $this->db->join('categoria', 'producto.id_categoria = categoria.id_categoria');
+        $this->db->join('linea', 'producto.id_linea = linea.id_linea');
+        $this->db->where('venta.fecha_venta', $fecha);
+        return $this->db->get();
+    }
+    
+    function diario_rv($fecha) {
+        $this->db->select('*');
+        $this->db->select_sum('cantidad', 'productos');
+        $this->db->from('venta');
+        $this->db->join('detalle_venta', 'venta.id_venta = detalle_venta.id_venta');
+        $this->db->where('fecha_venta', $fecha);
+        $this->db->group_by('venta.id_venta');
+        return $this->db->get();
+    }
+    
+    function diario_pc($fecha) {
+        $this->db->select('*');
+        $this->db->select_sum('cantidad', 'productos');
+        $this->db->from('producto');
+        $this->db->join('detalle_compra', 'producto.codigo_producto = detalle_compra.codigo_producto');
+        $this->db->join('compra', 'detalle_compra.id_compra = compra.id_compra');
+        $this->db->join('categoria', 'producto.id_categoria = categoria.id_categoria');
+        $this->db->join('linea', 'producto.id_linea = linea.id_linea');
+        $this->db->where('compra.fecha_compra', $fecha);
+        $this->db->group_by('producto.codigo_producto');
+        return $this->db->get();
+    }
+    
+    function diario_pv($fecha) {
+        $this->db->select('*');
+        $this->db->select_sum('cantidad', 'productos');
+        $this->db->from('producto');
+        $this->db->join('detalle_venta', 'producto.codigo_producto = detalle_venta.codigo_producto');
+        $this->db->join('venta', 'detalle_venta.id_venta = venta.id_venta');
+        $this->db->join('categoria', 'producto.id_categoria = categoria.id_categoria');
+        $this->db->join('linea', 'producto.id_linea = linea.id_linea');
+        $this->db->where('venta.fecha_venta', $fecha);
+        $this->db->group_by('producto.codigo_producto');
+        return $this->db->get();
+    }
+    
+    //REPORTES MENSUALES
+    
+    function mensual_rc($mes, $ano) {
+        $this->db->select('*');
+        $this->db->select_sum('cantidad', 'productos');
+        $this->db->from('compra');
+        $this->db->join('detalle_compra', 'compra.id_compra = detalle_compra.id_compra');
+        $this->db->where('MONTH(fecha_compra)', $mes);
+        $this->db->where('YEAR(fecha_compra)', $ano);
+        $this->db->group_by('compra.id_compra');
+        return $this->db->get();
+    }
+    
+    function mensual_rv($mes, $ano) {
+        $this->db->select('*');
+        $this->db->select_sum('cantidad', 'productos');
+        $this->db->from('venta');
+        $this->db->join('detalle_venta', 'venta.id_venta = detalle_venta.id_venta');
+        $this->db->where('MONTH(fecha_venta)', $mes);
+        $this->db->where('YEAR(fecha_venta)', $ano);
+        $this->db->group_by('venta.id_venta');
+        return $this->db->get();
+    }
+    
+    function mensual_pc($mes, $ano) {
+        $this->db->select('*');
+        $this->db->select_sum('cantidad', 'productos');
+        $this->db->from('producto');
+        $this->db->join('detalle_compra', 'producto.codigo_producto = detalle_compra.codigo_producto');
+        $this->db->join('compra', 'detalle_compra.id_compra = compra.id_compra');
+        $this->db->join('categoria', 'producto.id_categoria = categoria.id_categoria');
+        $this->db->join('linea', 'producto.id_linea = linea.id_linea');
+        $this->db->where('MONTH(fecha_compra)', $mes);
+        $this->db->where('YEAR(fecha_compra)', $ano);
+        $this->db->group_by('producto.codigo_producto');
+        return $this->db->get();
+    }
+    
+    function mensual_pv($mes, $ano) {
+        $this->db->select('*');
+        $this->db->select_sum('cantidad', 'productos');
+        $this->db->from('producto');
+        $this->db->join('detalle_venta', 'producto.codigo_producto = detalle_venta.codigo_producto');
+        $this->db->join('venta', 'detalle_venta.id_venta = venta.id_venta');
+        $this->db->join('categoria', 'producto.id_categoria = categoria.id_categoria');
+        $this->db->join('linea', 'producto.id_linea = linea.id_linea');
+        $this->db->where('MONTH(fecha_venta)', $mes);
+        $this->db->where('YEAR(fecha_venta)', $ano);
+        $this->db->group_by('producto.codigo_producto');
+        return $this->db->get();
+    }
+    
+    //REPORTES SEMANALES
+    
+    //REPORTES ANUALES
+    
+    function anual_rc($ano) {
+        $this->db->select('*');
+        $this->db->select_sum('cantidad', 'productos');
+        $this->db->from('compra');
+        $this->db->join('detalle_compra', 'compra.id_compra = detalle_compra.id_compra');
+        $this->db->where('YEAR(fecha_compra)', $ano);
+        $this->db->group_by('compra.id_compra');
+        return $this->db->get();
+    }
+    
+    function anual_rv($ano) {
+        $this->db->select('*');
+        $this->db->select_sum('cantidad', 'productos');
+        $this->db->from('venta');
+        $this->db->join('detalle_venta', 'venta.id_venta = detalle_venta.id_venta');
+        $this->db->where('YEAR(fecha_venta)', $ano);
+        $this->db->group_by('venta.id_venta');
+        return $this->db->get();
+    }
+    
+    function anual_pc($ano) {
+        $this->db->select('*');
+        $this->db->select_sum('cantidad', 'productos');
+        $this->db->from('producto');
+        $this->db->join('detalle_compra', 'producto.codigo_producto = detalle_compra.codigo_producto');
+        $this->db->join('compra', 'detalle_compra.id_compra = compra.id_compra');
+        $this->db->join('categoria', 'producto.id_categoria = categoria.id_categoria');
+        $this->db->join('linea', 'producto.id_linea = linea.id_linea');
+        $this->db->where('YEAR(fecha_compra)', $ano);
+        $this->db->group_by('producto.codigo_producto');
+        return $this->db->get();
+    }
+    
+    function anual_pv($ano) {
+        $this->db->select('*');
+        $this->db->select_sum('cantidad', 'productos');
+        $this->db->from('producto');
+        $this->db->join('detalle_venta', 'producto.codigo_producto = detalle_venta.codigo_producto');
+        $this->db->join('venta', 'detalle_venta.id_venta = venta.id_venta');
+        $this->db->join('categoria', 'producto.id_categoria = categoria.id_categoria');
+        $this->db->join('linea', 'producto.id_linea = linea.id_linea');
+        $this->db->where('YEAR(fecha_venta)', $ano);
+        $this->db->group_by('producto.codigo_producto');
+        return $this->db->get();
+    }
+    
+    //REPORTES STOCK
+    
+    function r_bajo() {
+        $this->db->select('*');
+        $this->db->from('producto');
+        $this->db->join('categoria', 'producto.id_categoria = categoria.id_categoria');
+        $this->db->join('linea', 'producto.id_linea = linea.id_linea');
+        $this->db->where('bajo_stock !=', 0);
+        $this->db->where('bajo_stock > stock_producto');
+        return $this->db->get();
+    }
+    
+    function r_sobre() {
+        $this->db->select('*');
+        $this->db->from('producto');
+        $this->db->join('categoria', 'producto.id_categoria = categoria.id_categoria');
+        $this->db->join('linea', 'producto.id_linea = linea.id_linea');
+        $this->db->where('sobre_stock !=', 0);
+        $this->db->where('sobre_stock < stock_producto');
+        return $this->db->get();
+    }
+    
 }

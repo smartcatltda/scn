@@ -642,7 +642,6 @@ function update_categoria()
         $("#msg").html("<label>Seleccione una categoria para editar</label>");
         $("#msg").css("color", "#FF0000").show('pulsate', 'slow').delay(3000).hide('fade', 'slow');
     }
-
 }
 
 function  seleccionar_categoria(id)
@@ -679,8 +678,8 @@ function bloquear_dp()
 //bloquea el datepicker en caso de que el rango seleccionado sea "últimos 7 días"
 //lo reactiva en caso contrario
 {
-    var rango = $("#r_filtro").val();
-    if (rango == "s") {
+    var tipo = $("#r_tipo").val();
+    if (tipo == "as") {
         $("#r_datepicker").val("");
         $("#r_datepicker").datepicker("disable");
     } else {
@@ -698,7 +697,8 @@ function cargar_rangos()
         $("#r_filtro").html("<option value='d'>Diario</option>");
     } else {
         if (tipo == "rc" || tipo == "rv" || tipo == "pc" || tipo == "pv") {
-            $("#r_filtro").html("<option value='d'>Diario</option><option value='s'>Últimos 7 días</option><option value='m'>Mensual</option><option value='a'>Anual</option>");
+//            <option value='s'>Últimos 7 días</option>
+            $("#r_filtro").html("<option value='d'>Diario</option><option value='m'>Mensual</option><option value='a'>Anual</option>");
         } else {
             $("#r_filtro").html("<option value='ss'>Sobre Stock</option><option value='bs'>Bajo Stock</option>");
         }
@@ -707,45 +707,45 @@ function cargar_rangos()
     $("#r_datepicker").datepicker('setDate', '+0');
 }
 
-function generar_informe()
+function generar_reporte()
 {
     var tipo = $("#r_tipo").val();
     var filtro = $("#r_filtro").val();
     var fecha = $("#r_datepicker").val();
-    if (fecha != "" || filtro == "s") {
+    if (fecha != "" || tipo == "as") {
         if (filtro == "d") {
             $.post(base_url + "controlador/reporte_diario", {tipo: tipo, fecha: fecha},
             function (ruta, datos) {
-                $("#informe").html(ruta, datos);
+                $("#reporte").html(ruta, datos);
             });
         } else {
             if (filtro == "m") {
                 $.post(base_url + "controlador/reporte_mensual", {tipo: tipo, fecha: fecha},
                 function (ruta, datos) {
-                    $("#informe").html(ruta, datos);
+                    $("#reporte").html(ruta, datos);
                 });
             } else {
                 if (filtro == "s") {
-                    $.post(base_url + "controlador/reporte_semanal", {tipo: tipo, fecha: fecha},
+                    $.post(base_url + "controlador/reporte_semanal", {tipo: tipo},
                     function (ruta, datos) {
-                        $("#informe").html(ruta, datos);
+                        $("#reporte").html(ruta, datos);
                     });
                 } else {
                     if (filtro == "a") {
                         $.post(base_url + "controlador/reporte_anual", {tipo: tipo, fecha: fecha},
                         function (ruta, datos) {
-                            $("#informe").html(ruta, datos);
+                            $("#reporte").html(ruta, datos);
                         });
                     } else {
                         if (filtro == "bs") {
                             $.post(base_url + "controlador/reporte_bajo", {tipo: tipo, fecha: fecha},
                             function (ruta, datos) {
-                                $("#informe").html(ruta, datos);
+                                $("#reporte").html(ruta, datos);
                             });
                         } else {
                             $.post(base_url + "controlador/reporte_sobre", {tipo: tipo, fecha: fecha},
                             function (ruta, datos) {
-                                $("#informe").html(ruta, datos);
+                                $("#reporte").html(ruta, datos);
                             });
                         }
                     }
