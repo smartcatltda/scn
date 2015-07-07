@@ -74,7 +74,53 @@
     </div>
 
     <!--*************VENTAS***************-->
-    <div id="ventas" class="contenido" hidden>ventas</div>
+    <div id="ventas" class="contenido" hidden>
+        <table width="1024">
+            <caption style="text-align: center; font-size: 16px;">Ventas</caption>
+            <tr> 
+                <td><button id="v_bt_crear_venta" style="width: 180px; text-align: center">Crear Venta</button></td>
+                <td><button disabled id="v_bt_cerrar_venta" style="width: 180px; text-align: center">Cerrar Venta</button></td>
+            </tr>
+        </table>
+        <table cellspacing="2">
+            <thead>
+            <th colspan="3" style="height: 5px"></th>
+            </thead>
+            <tbody>
+                <tr>
+                    <td colspan="3" style="height: 5px"></td>
+                </tr>
+                <tr>
+                    <td style="text-align: left;">N°Venta: </td>
+                    <td style="text-align: left;">Código: </td>
+                    <td style="text-align: left;">Nombre: </td>
+                    <td style="text-align: left;">Descripción: </td>
+                    <td style="text-align: left;">Categoría: </td>
+                    <td style="text-align: left;">Línea: </td>
+                    <td style="text-align: left;">Cantidad: </td>
+                </tr>
+                <tr>
+                    <td><input type="text" readonly id="v_num_venta" placeholder="N° Venta" style="width: 90px; text-align: center" class="rounded"/></td>
+                    <td><input type="text" readonly id="v_codigo_producto" placeholder="Escanee Cód Barras" style="width: 150px; text-align: center" class="rounded" autofocus/></td>
+                    <td><input type="text" readonly id="v_nombre_producto" placeholder="Nombre del Poducto" style="width: 170px; text-align: center" class="rounded"/></td>
+                    <td><input type="text" readonly id="v_descripcion_producto" placeholder="Descripción" style="width: 200px; text-align: center" class="rounded"/></td>
+                    <td><input type="text" readonly id="v_categoria" placeholder="Categoría" style="width: 130px; text-align: center" class="rounded"/></td>
+                    <td><input type="text" readonly id="v_linea" placeholder="Línea" style="width: 130px; text-align: center" class="rounded"/></td>
+                    <td><input type="text" readonly id="v_cantidad" placeholder="Cantidad" style="width: 100px; text-align: center" class="rounded"/></td>
+
+                </tr>
+                <tr>
+                    <td colspan="5"></td>
+                    <td colspan="2" rowspan="2" align="right">
+                        <button disabled id="v_bt_limpiar" style="width: 110px; text-align: center">Limpiar</button>
+                        <button disabled id="v_bt_cargar" style="width: 110px; text-align: center">Cargar</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <br>
+        <div style="margin-left: 2%;" hidden id="lista_venta"></div>
+    </div>
 
     <!--*************INVENTARIO***************-->
     <div id="inventario" class="contablas" hidden>

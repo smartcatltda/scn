@@ -34,7 +34,6 @@ $(document).ready(function () {
 //**********COMPRAS**********
     $("#c_bt_crear_compra").button().click(function () {
         crear_compra();
-
     });
     $("#c_bt_cerrar_compra").button().click(function () {
         cerrar_compra();
@@ -65,7 +64,36 @@ $(document).ready(function () {
     });
 
 //**********VENTAS**********
-
+    $("#v_bt_crear_venta").button().click(function () {
+        crear_venta();
+    });
+    $("#v_bt_cerrar_venta").button().click(function () {
+        cerrar_venta();
+    });
+    $("#v_bt_cargar").button().click(function () {
+        cargar_venta();
+    });
+    $("#v_bt_limpiar").button().click(function () {
+        limpiar_venta();
+    });
+    $("#v_codigo_producto").keyup(function () {
+        if ($(this).val() != "")
+        {
+            var codigo = $(this).val();
+            $.post(base_url + "controlador/seleccionar_producto", {codigo: codigo},
+            function (datos) {
+                $('#v_codigo_producto').attr('readonly', true);
+                $('#v_cantidad').attr('readonly', false);
+                $("#v_codigo_producto").val(datos.codigo);
+                $("#v_nombre_producto").val(datos.nombre);
+                $("#v_categoria").val(datos.nombre_categoria);
+                $("#v_linea").val(datos.nombre_linea);
+                $("#v_descripcion_producto").val(datos.descripcion);
+                foco('v_cantidad');
+            }, "json"
+                    );
+        }
+    });
 
 //**********INVENTARIO**********
 
@@ -393,8 +421,7 @@ function cargar_compra() {
     } else {
         $("#msg").hide();
         $("#msg").html("<label>Código Del Producto No Registrado</label>");
-        $("#msg").css("color", "#FF00\n\
-00").show('pulsate', 'slow').delay(3000).hide('fade', 'slow');
+        $("#msg").css("color", "#FF0000").show('pulsate', 'slow').delay(3000).hide('fade', 'slow');
     }
 }
 function recargar_compras() {
@@ -418,6 +445,7 @@ function eliminar_compra(id, codigo, cantidad) {
             $("#msg").html("<label>Compra Eliminada!</label>");
             $("#msg").css("color", "#55FF00").show('fade', 'slow').delay(3000).hide('fade', 'slow');
             recargar_compras();
+            foco('c_codigo_producto');
         }
     }, "json"
             );
@@ -449,7 +477,125 @@ function limpiar_compra() {
 }
 
 //**********VENTAS**********
+function crear_venta() {
+    $.post(base_url + "controlador/crear_venta", {},
+            function (datos) {
+                $('#v_codigo_producto').attr('readonly', false);
+                foco('v_codigo_producto');
+                $("#v_bt_cerrar_venta").removeAttr("disabled");
+                $("#v_bt_cerrar_venta").button("refresh");
+                $("#v_bt_cargar").removeAttr("disabled");
+                $("#v_bt_cargar").button("refresh");
+                $("#v_bt_limpiar").removeAttr("disabled");
+                $("#v_bt_limpiar").button("refresh");
+                $("#v_bt_crear_venta").attr("disabled", true);
+                $("#v_bt_crear_venta").button("refresh");
+                $('#v_num_venta').val(datos.id);
+            }, "json"
+            );
+}
 
+function cargar_venta() {
+    var codigo = $("#v_codigo_producto").val();
+    var cantidad = $('#v_cantidad').val();
+    var num_venta = $("#v_num_venta").val();
+    if (codigo != "" && num_venta != "") {
+        if (cantidad != "") {
+            if (cantidad > 0) {
+                $.post(base_url + "controlador/cargar_venta",
+                        {codigo: codigo, cantidad: cantidad, num_venta: num_venta},
+                function (ruta, datos) {
+                    $("#lista_venta").show();
+                    $("#lista_venta").html(ruta, datos);
+                    limpiar_venta();
+                });
+                $.post(base_url + "controlador/actualizar_stock",
+                        {codigo: codigo, cantidad: cantidad},
+                function (datos) {
+                    if (datos.valor == 1) {
+                        $("#dialog-message").html("<p><span class='ui-icon ui-icon-alert' style='float:left; margin:0 7px 50px 0;'></span>" + datos.diferencia + " Unidades Bajo el indice del Stock</p>");
+                        $(function () {
+                            $("#dialog-message").dialog({
+                                modal: true,
+                                buttons: {
+                                    Ok: function () {
+                                        $("#dialog-message").show();
+                                        $(this).dialog("close");
+                                        foco('v_codigo_producto');
+                                    }
+                                }
+                            });
+                        });
+                    }
+                }, "json"
+                        );
+            } else {
+                $("#msg").hide();
+                $("#msg").html("<label>La Cantidad Debe Ser Mayor a Cero</label>");
+                $("#msg").css("color", "#FF0000").show('pulsate', 'slow').delay(3000).hide('fade', 'slow');
+            }
+        } else {
+            $("#msg").hide();
+            $("#msg").html("<label>Ingrese Cantidad</label>");
+            $("#msg").css("color", "#FF0000").show('pulsate', 'slow').delay(3000).hide('fade', 'slow');
+        }
+    } else {
+        $("#msg").hide();
+        $("#msg").html("<label>Código Del Producto No Registrado</label>");
+        $("#msg").css("color", "#FF0000").show('pulsate', 'slow').delay(3000).hide('fade', 'slow');
+    }
+}
+function eliminar_venta(id, codigo, cantidad) {
+    var id = id;
+    var codigo = codigo;
+    var cantidad = cantidad;
+    $.post(base_url + "controlador/eliminar_venta", {codigo: codigo, cantidad: cantidad, id: id},
+    function (datos) {
+        if (datos.valor == 1) {
+            $("#msg").hide();
+            $("#msg").html("<label>Venta Eliminada!</label>");
+            $("#msg").css("color", "#55FF00").show('fade', 'slow').delay(3000).hide('fade', 'slow');
+            recargar_ventas();
+            foco('v_codigo_producto');
+        }
+    }, "json"
+            );
+}
+function recargar_ventas() {
+    var num_venta = $("#v_num_venta").val();
+    if (num_venta != "") {
+        $.post(base_url + "controlador/cargar_ventas", {num_venta: num_venta},
+        function (ruta, datos) {
+            $("#lista_venta").show();
+            $("#lista_venta").html(ruta, datos);
+        });
+    }
+}
+
+function cerrar_venta() {
+    limpiar_venta();
+    $("#lista_venta").hide();
+    $("#v_num_venta").val("");
+    $('#v_codigo_producto').attr('readonly', true);
+    $("#v_bt_crear_venta").removeAttr("disabled");
+    $("#v_bt_crear_venta").button("refresh");
+    $("#v_bt_cargar").attr("disabled", true);
+    $("#v_bt_cargar").button("refresh");
+    $("#v_bt_limpiar").attr("disabled", true);
+    $("#v_bt_limpiar").button("refresh");
+}
+
+function limpiar_venta() {
+    $('#v_codigo_producto').attr('readonly', false);
+    $('#v_cantidad').attr('readonly', true);
+    $("#v_codigo_producto").val("");
+    $("#v_nombre_producto").val("");
+    $("#v_categoria").val("");
+    $("#v_linea").val("");
+    $("#v_descripcion_producto").val("");
+    $("#v_cantidad").val("");
+    foco('v_codigo_producto');
+}
 
 //**********INVENTARIO**********
 

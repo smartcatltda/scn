@@ -58,6 +58,44 @@ class modelo extends CI_Model {
     }
 
 //**********VENTAS**********
+    function cargar_ventas($num_venta) {
+        $this->db->select('*');
+        $this->db->where('id_venta', $num_venta);
+        $this->db->from('detalle_venta');
+        $this->db->join('producto', 'detalle_venta.codigo_producto = producto.codigo_producto');
+        $this->db->join('categoria', 'producto.id_categoria = categoria.id_categoria');
+        $this->db->join('linea', 'producto.id_linea = linea.id_linea');
+        return $this->db->get();
+    }
+
+    function crear_venta($fecha, $hora) {
+        $data = array(
+            "fecha_venta" => $fecha,
+            "hora_venta" => $hora,
+        );
+        $this->db->insert("venta", $data);
+        $this->db->select('*');
+        $this->db->from('venta');
+        $this->db->order_by('id_venta', 'DESC');
+        $this->db->limit(1);
+        return $this->db->get();
+    }
+
+    function insert_datalle_venta($codigo, $cantidad, $num_venta) {
+        $data = array(
+            "codigo_producto" => $codigo,
+            "cantidad" => $cantidad,
+            "id_venta" => $num_venta,
+        );
+        $this->db->insert("detalle_venta", $data);
+    }
+
+    function eliminar_venta($id) {
+        $this->db->where('id_detalle_venta', $id);
+        $this->db->delete('detalle_venta');
+        return 0;
+    }
+
 //**********PRODUCTOS**********
     function cargar_productos() {
         $this->db->select('*');
