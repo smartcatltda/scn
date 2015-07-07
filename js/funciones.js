@@ -169,7 +169,31 @@ $(document).ready(function () {
     });
 
 //**********REPORTES**********
-
+    cargar_rangos();
+    $("#r_datepicker").datepicker();
+    
+    $.datepicker.regional['es'] = {
+        closeText: 'Cerrar',
+        prevText: '<Ant',
+        nextText: 'Sig>',
+        currentText: 'Hoy',
+        monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+        monthNamesShort: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
+        dayNames: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
+        dayNamesShort: ['Dom', 'Lun', 'Mar', 'Mié', 'Juv', 'Vie', 'Sáb'],
+        dayNamesMin: ['Do', 'Lu', 'Ma', 'Mi', 'Ju', 'Vi', 'Sá'],
+        weekHeader: 'Sm',
+        dateFormat: 'yy/mm/dd',
+        firstDay: 1,
+        isRTL: false,
+        showMonthAfterYear: false,
+        yearSuffix: ''
+    };
+    $.datepicker.setDefaults($.datepicker.regional['es']);
+    $("#r_datepicker").datepicker('setDate', '+0');
+    $("#r_generar").button().click(function () {
+        generar_reporte();
+    });
 
 //**********FOOTER**********
     $("#footer").tabs();
@@ -651,7 +675,90 @@ function  estado_categoria(id, estado)
 }
 
 //**********REPORTES**********
+function bloquear_dp()
+//bloquea el datepicker en caso de que el rango seleccionado sea "últimos 7 días"
+//lo reactiva en caso contrario
+{
+    var rango = $("#r_filtro").val();
+    if (rango == "s") {
+        $("#r_datepicker").val("");
+        $("#r_datepicker").datepicker("disable");
+    } else {
+        $("#r_datepicker").datepicker("enable");
+        $("#r_datepicker").datepicker('setDate', '+0');
+    }
+}
 
+function cargar_rangos()
+//carga el selector de rangos dependiendo de la opción seleccionada en el
+//selector de tipos de informe
+{
+    var tipo = $("#r_tipo").val();
+    if (tipo == "dc" || tipo == "dv") {
+        $("#r_filtro").html("<option value='d'>Diario</option>");
+    } else {
+        if (tipo == "rc" || tipo == "rv" || tipo == "pc" || tipo == "pv") {
+            $("#r_filtro").html("<option value='d'>Diario</option><option value='s'>Últimos 7 días</option><option value='m'>Mensual</option><option value='a'>Anual</option>");
+        } else {
+            $("#r_filtro").html("<option value='ss'>Sobre Stock</option><option value='bs'>Bajo Stock</option>");
+        }
+    }
+    $("#r_datepicker").datepicker("enable");
+    $("#r_datepicker").datepicker('setDate', '+0');
+}
+
+function generar_informe()
+{
+    var tipo = $("#r_tipo").val();
+    var filtro = $("#r_filtro").val();
+    var fecha = $("#r_datepicker").val();
+    if (fecha != "" || filtro == "s") {
+        if (filtro == "d") {
+            $.post(base_url + "controlador/reporte_diario", {tipo: tipo, fecha: fecha},
+            function (ruta, datos) {
+                $("#informe").html(ruta, datos);
+            });
+        } else {
+            if (filtro == "m") {
+                $.post(base_url + "controlador/reporte_mensual", {tipo: tipo, fecha: fecha},
+                function (ruta, datos) {
+                    $("#informe").html(ruta, datos);
+                });
+            } else {
+                if (filtro == "s") {
+                    $.post(base_url + "controlador/reporte_semanal", {tipo: tipo, fecha: fecha},
+                    function (ruta, datos) {
+                        $("#informe").html(ruta, datos);
+                    });
+                } else {
+                    if (filtro == "a") {
+                        $.post(base_url + "controlador/reporte_anual", {tipo: tipo, fecha: fecha},
+                        function (ruta, datos) {
+                            $("#informe").html(ruta, datos);
+                        });
+                    } else {
+                        if (filtro == "bs") {
+                            $.post(base_url + "controlador/reporte_bajo", {tipo: tipo, fecha: fecha},
+                            function (ruta, datos) {
+                                $("#informe").html(ruta, datos);
+                            });
+                        } else {
+                            $.post(base_url + "controlador/reporte_sobre", {tipo: tipo, fecha: fecha},
+                            function (ruta, datos) {
+                                $("#informe").html(ruta, datos);
+                            });
+                        }
+                    }
+                }
+            }
+        }
+    } else {
+        $("#msg").hide();
+        $("#msg").html("<label>Debe Seleccionar una Fecha</label>");
+        $("#msg").css("color", "#FF0000").show('pulsate', 'slow').delay(3000).hide('fade', 'slow');
+    }
+
+}
 
 //**********VALIDACIONES**********
 function foco(e) {

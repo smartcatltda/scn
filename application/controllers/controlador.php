@@ -255,6 +255,58 @@ class controlador extends CI_Controller {
     
 
 //**********REPORTES**********
+    
+    function informe_diario() {
+        $tipo = $this->input->post('tipo');
+        $fecha = $this->input->post('fecha');
+//        list($dia, $mes, $ano) = explode("/", $fecha);
+        if ($tipo == "dc") {
+            $datos["diario_dc"] = $this->modelo->diario_keys($fecha)->result();
+            $datos["cantidad"] = $this->modelo->diario_keys($fecha)->num_rows();
+            $this->load->view("r_detalle_compras", $datos);
+        } else {
+            if ($tipo == "a") {
+                $datos["diario_aumentos"] = $this->modelo->diario_aumentos($dia, $mes, $ano)->result();
+                $datos["cantidad"] = $this->modelo->diario_aumentos($dia, $mes, $ano)->num_rows();
+                $this->load->view("diario_aumentos", $datos);
+            } else {
+                if ($tipo == "p") {
+                    $datos["diario_pagos"] = $this->modelo->diario_pagos($dia, $mes, $ano)->result();
+                    $datos["cantidad"] = $this->modelo->diario_pagos($dia, $mes, $ano)->num_rows();
+                    $this->load->view("diario_pagos", $datos);
+                } else {
+                    if ($tipo == "rp") {
+                        $datos["diario_resumen_pagos"] = $this->modelo->diario_resumen_pagos($dia, $mes, $ano)->result();
+                        $datos["cantidad"] = $this->modelo->diario_resumen_pagos($dia, $mes, $ano)->num_rows();
+                        $this->load->view("diario_resumen_pagos", $datos);
+                    } else {
+                        if ($tipo == "g") {
+                            $datos["diario_gastos"] = $this->modelo->diario_gastos($dia, $mes, $ano)->result();
+                            $datos["cantidad"] = $this->modelo->diario_gastos($dia, $mes, $ano)->num_rows();
+                            $this->load->view("diario_gastos", $datos);
+                        } else {
+                            if ($tipo == "rg") {
+                                $datos["diario_resumen_gastos"] = $this->modelo->diario_resumen_gastos($dia, $mes, $ano)->result();
+                                $datos["cantidad"] = $this->modelo->diario_resumen_gastos($dia, $mes, $ano)->num_rows();
+                                $this->load->view("diario_resumen_gastos", $datos);
+                            } else {
+                                if ($tipo == "c") {
+                                    $datos["diario_cierres"] = $this->modelo->diario_cierres($dia, $mes, $ano)->result();
+                                    $datos["cantidad"] = $this->modelo->diario_cierres($dia, $mes, $ano)->num_rows();
+                                    $this->load->view("diario_cierres", $datos);
+                                } else {
+                                    $datos["diario_resumen_cierres"] = $this->modelo->diario_resumen_cierres($dia, $mes, $ano)->result();
+                                    $datos["cantidad"] = $this->modelo->diario_resumen_cierres($dia, $mes, $ano)->num_rows();
+                                    $this->load->view("diario_resumen_cierres", $datos);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
 }
 
 /* End of file welcome.php */

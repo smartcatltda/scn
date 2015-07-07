@@ -23,6 +23,7 @@
 
     <div id="ventas" class="contenido" hidden>ventas</div>
 
+    <!--INVENTARIO--> 
     <div id="inventario" class="contablas" hidden>
         <div style="font-size: 12px;">
             <ul>
@@ -155,6 +156,46 @@
         </div>
     </div>
 
-    <div id="reportes" class="contenido" hidden>reportes</div>
+    <!--REPORTES-->
+    <div id="reportes" class="contenido" hidden>
+
+        <table style="margin: 15px">
+            <thead>
+                <tr>
+                    <th colspan="7" style="text-align: left; font-size: 16px;">Generación de Reportes</th>
+                </tr>
+                <tr style="height: 20px">
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Tipo de Informe: &nbsp; </td>
+                    <td>
+                        <select class="rounded" id="r_tipo" onchange="cargar_rangos()" style="width: 180px;">
+                            <option value="dc">Detalle Compras</option>
+                            <option value="rc">Resumen Compras</option>
+                            <option value="dv">Detalle Ventas</option>
+                            <option value="rv">Resumen Ventas</option>
+                            <option value="pc">Productos Comprados</option>
+                            <option value="pv">Productos Vendidos</option>
+                            <option value="as">Alertas de Stock</option>
+                        </select>
+                    </td>
+                    <td> &nbsp; Filtro: &nbsp; </td>
+                    <td>
+                        <select class="rounded" id="r_filtro" onchange="bloquear_dp()" style="width: 130px;">
+                        </select>
+                    </td>
+                    <td> &nbsp; Fecha: &nbsp; </td>
+                    <td><input type="text" id="r_datepicker" class="rounded" style="width: 100px"></td>
+                    <td style="text-align: right; width: 200px;"><button id="r_generar" style="width: 150px">Generar Informe</button></td>
+                </tr>
+            </tbody>
+        </table>
+        <div id="reporte"></div>
+    </div>
+
+
 
 </div>
