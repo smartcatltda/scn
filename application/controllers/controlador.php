@@ -48,8 +48,154 @@ class controlador extends CI_Controller {
     }
 
 //**********COMPRAS**********
+    function crear_compra() {
+        date_default_timezone_set("America/Argentina/Buenos_Aires");
+        $fecha = date('Y-m-d');
+        $hora = date("H:i:s");
+        $datos = $this->modelo->crear_compra($fecha, $hora)->result();
+        foreach ($datos as $fila) {
+            $id_compra = $fila->id_compra;
+        }
+        echo json_encode(array("id" => $id_compra));
+    }
+
+    function cargar_compra() {
+        $codigo = $this->input->post('codigo');
+        $cantidad = $this->input->post('cantidad');
+        $num_compra = $this->input->post('num_compra');
+        $this->modelo->insert_datalle_compra($codigo, $cantidad, $num_compra);
+        $datos = $this->modelo->cargar_compras($num_compra);
+        $data ['compras'] = $datos->result();
+        $this->load->view("lista_compra", $data);
+    }
+
+    function update_stock() {
+        $codigo = $this->input->post('codigo');
+        $cantidad = $this->input->post('cantidad');
+        $valor = 0;
+        $sobre_stock = 0;
+        $stock = 0;
+        $diferencia = 0;
+        $dato = $this->modelo->seleccionar_producto($codigo)->result();
+        foreach ($dato as $fila) {
+            $stock = $fila->stock_producto;
+            $sobre_stock = $fila->sobre_stock;
+        }
+        $nuevo_stock = $stock + $cantidad;
+        $this->modelo->update_stock($codigo, $nuevo_stock);
+        if ($sobre_stock < $nuevo_stock) {
+            $diferencia = $nuevo_stock - $sobre_stock;
+            $valor = 1;
+        }
+        echo json_encode(array("valor" => $valor, "diferencia" => $diferencia));
+    }
+
+    function eliminar_compra() {
+        $id = $this->input->post('id');
+        $codigo = $this->input->post('codigo');
+        $cantidad = $this->input->post('cantidad');
+        $stock = 0;
+        $valor = 0;
+        $dato = $this->modelo->seleccionar_producto($codigo)->result();
+        foreach ($dato as $fila) {
+            $stock = $fila->stock_producto;
+        }
+        $nuevo_stock = $stock - $cantidad;
+        $this->modelo->update_stock($codigo, $nuevo_stock);
+        if ($this->modelo->eliminar_compra($id) == 0) {
+            $valor = 1;
+        }
+        echo json_encode(array("valor" => $valor));
+    }
+
+    function cargar_compras() {
+        $num_compra = $this->input->post('num_compra');
+        $datos = $this->modelo->cargar_compras($num_compra);
+        $data ['compras'] = $datos->result();
+        $this->load->view("lista_compra", $data);
+    }
+
 //**********VENTAS**********
-//**********INVENTARIO**********
+    function crear_venta() {
+        date_default_timezone_set("America/Argentina/Buenos_Aires");
+        $fecha = date('Y-m-d');
+        $hora = date("H:i:s");
+        $datos = $this->modelo->crear_venta($fecha, $hora)->result();
+        foreach ($datos as $fila) {
+            $id_venta = $fila->id_venta;
+        }
+        echo json_encode(array("id" => $id_venta));
+    }
+
+    function cargar_ventas() {
+        $num_venta = $this->input->post('num_venta');
+        $datos = $this->modelo->cargar_ventas($num_venta);
+        $data ['ventas'] = $datos->result();
+        $this->load->view("lista_venta", $data);
+    }
+
+    function cargar_venta() {
+        $codigo = $this->input->post('codigo');
+        $cantidad = $this->input->post('cantidad');
+        $num_venta = $this->input->post('num_venta');
+        $stock = 0;
+        $dato = $this->modelo->seleccionar_producto($codigo)->result();
+        foreach ($dato as $fila) {
+            $stock = $fila->stock_producto;
+        }
+        $nuevo_stock = $stock - $cantidad;
+        if ($nuevo_stock >= 0) {
+            $this->modelo->insert_datalle_venta($codigo, $cantidad, $num_venta);
+        }
+        $datos = $this->modelo->cargar_ventas($num_venta);
+        $data ['ventas'] = $datos->result();
+        $this->load->view("lista_venta", $data);
+    }
+
+    function actualizar_stock() {
+        $codigo = $this->input->post('codigo');
+        $cantidad = $this->input->post('cantidad');
+        $valor = 0;
+        $bajo_stock = 0;
+        $stock = 0;
+        $diferencia = 0;
+        $dato = $this->modelo->seleccionar_producto($codigo)->result();
+        foreach ($dato as $fila) {
+            $stock = $fila->stock_producto;
+            $bajo_stock = $fila->bajo_stock;
+        }
+        $nuevo_stock = $stock - $cantidad;
+        if ($nuevo_stock >= 0) {
+            $this->modelo->update_stock($codigo, $nuevo_stock);
+            if ($bajo_stock > $nuevo_stock) {
+                $diferencia = $nuevo_stock - $bajo_stock;
+                $valor = 1;
+            }
+        } else {
+            $valor = 2;
+        }
+
+        echo json_encode(array("valor" => $valor, "diferencia" => $diferencia));
+    }
+
+    function eliminar_venta() {
+        $id = $this->input->post('id');
+        $codigo = $this->input->post('codigo');
+        $cantidad = $this->input->post('cantidad');
+        $stock = 0;
+        $valor = 0;
+        $dato = $this->modelo->seleccionar_producto($codigo)->result();
+        foreach ($dato as $fila) {
+            $stock = $fila->stock_producto;
+        }
+        $nuevo_stock = $stock + $cantidad;
+        $this->modelo->update_stock($codigo, $nuevo_stock);
+        if ($this->modelo->eliminar_venta($id) == 0) {
+            $valor = 1;
+        }
+        echo json_encode(array("valor" => $valor));
+    }
+
 //**********PRODUCTOS**********
 
     function cargar_productos() {
@@ -78,6 +224,7 @@ class controlador extends CI_Controller {
     }
 
     function update_producto() {
+        $id = $this->input->post('id');
         $codigo = $this->input->post('codigo');
         $nombre = $this->input->post('nombre');
         $categoria = $this->input->post('categoria');
@@ -87,7 +234,7 @@ class controlador extends CI_Controller {
         $stock = $this->input->post('stock');
         $sobre_stock = $this->input->post('sobre_stock');
 
-        if ($this->modelo->update_producto($codigo, $nombre, $categoria, $linea, $descripcion, $bajo_stock, $stock, $sobre_stock) == 0) {
+        if ($this->modelo->update_producto($id, $codigo, $nombre, $categoria, $linea, $descripcion, $bajo_stock, $stock, $sobre_stock) == 0) {
             $valor = 0;
         }
         echo json_encode(array("valor" => $valor));
@@ -105,8 +252,11 @@ class controlador extends CI_Controller {
             $bajo_stock = $fila->bajo_stock;
             $stock = $fila->stock_producto;
             $sobre_stock = $fila->sobre_stock;
+            $nombre_categoria = $fila->nombre_categoria;
+            $nombre_linea = $fila->nombre_linea;
         }
-        echo json_encode(array("codigo" => $codigo_producto, "nombre" => $nombre, "descripcion" => $descripcion, "categoria" => $categoria, "linea" => $linea, "bajo_stock" => $bajo_stock, "stock" => $stock, "sobre_stock" => $sobre_stock));
+        echo json_encode(array("codigo" => $codigo_producto, "nombre" => $nombre, "descripcion" => $descripcion,
+            "categoria" => $categoria, "linea" => $linea, "bajo_stock" => $bajo_stock, "stock" => $stock, "sobre_stock" => $sobre_stock, "nombre_linea" => $nombre_linea, "nombre_categoria" => $nombre_categoria));
     }
 
     function estado_producto() {
