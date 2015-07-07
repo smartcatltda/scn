@@ -288,6 +288,7 @@ function conectar()
                 $("#contenido").show('fast');
                 $("#nombrelogin").html('<label>BIENVENIDA, YANET.</label>');
                 inicio();
+                $('audio')[0].play();
             }
         },
                 'json'
@@ -418,10 +419,12 @@ function cargar_compra() {
                     if (datos.valor == 1) {
                         $("#dialog-message").html("<p><span class='ui-icon ui-icon-alert' style='float:left; margin:0 7px 50px 0;'></span> Sobre Stock de : " + datos.diferencia + " Unidades</p>");
                         $(function () {
+                            $('audio')[0].play();
                             $("#dialog-message").dialog({
                                 modal: true,
                                 buttons: {
                                     Ok: function () {
+
                                         $("#dialog-message").show();
                                         $(this).dialog("close");
                                         foco('c_codigo_producto');
@@ -539,6 +542,7 @@ function cargar_venta() {
                     if (datos.valor == 1) {
                         $("#dialog-message").html("<p><span class='ui-icon ui-icon-alert' style='float:left; margin:0 7px 50px 0;'></span>" + datos.diferencia + " Unidades Bajo el indice del Stock</p>");
                         $(function () {
+                            $('audio')[0].play();
                             $("#dialog-message").dialog({
                                 modal: true,
                                 buttons: {
@@ -1089,3 +1093,12 @@ $.extend($.expr[":"],
                 return (elem.textContent || elem.innerText || $(elem).text() || "").toLowerCase().indexOf((match[3] || "").toLowerCase()) >= 0;
             }
         });
+
+function capLock(e) {
+    kc = e.keyCode ? e.keyCode : e.which;
+    sk = e.shiftKey ? e.shiftKey : ((kc == 16) ? true : false);
+    if (((kc >= 65 && kc <= 90) && !sk) || ((kc >= 97 && kc <= 122) && sk))
+        document.getElementById('caplock').style.visibility = 'visible';
+    else
+        document.getElementById('caplock').style.visibility = 'hidden';
+}
