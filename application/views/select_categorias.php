@@ -2,6 +2,9 @@
 <option>N/D</option>
 <?php
 else:
+    ?>
+    <option value='0'>Seleccione Categoría</option>
+    <?php
     foreach ($categorias as $fila) :
         if ($fila->estado_categoria == 0):
             ?>

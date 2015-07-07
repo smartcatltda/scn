@@ -2,6 +2,9 @@
 <option>N/D</option>
 <?php
 else:
+    ?>
+    <option value='0'>Seleccione Línea</option>
+    <?php
     foreach ($lineas as $fila) :
         if ($fila->estado_linea == 0):
             ?>
