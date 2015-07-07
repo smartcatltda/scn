@@ -11,8 +11,53 @@ class modelo extends CI_Model {
     }
 
 //**********COMPRAS**********
+    function crear_compra($fecha, $hora) {
+        $data = array(
+            "fecha_compra" => $fecha,
+            "hora_compra" => $hora,
+        );
+        $this->db->insert("compra", $data);
+        $this->db->select('*');
+        $this->db->from('compra');
+        $this->db->order_by('id_compra', 'DESC');
+        $this->db->limit(1);
+        return $this->db->get();
+    }
+
+    function insert_datalle_compra($codigo, $cantidad, $num_compra) {
+        $data = array(
+            "codigo_producto" => $codigo,
+            "cantidad" => $cantidad,
+            "id_compra" => $num_compra,
+        );
+        $this->db->insert("detalle_compra", $data);
+    }
+
+    function update_stock($codigo, $nuevo_stock) {
+        $data = array(
+            "stock_producto" => $nuevo_stock,
+        );
+        $this->db->where('codigo_producto', $codigo);
+        $this->db->update('producto', $data);
+    }
+
+    function cargar_compras($num_compra) {
+        $this->db->select('*');
+        $this->db->where('id_compra', $num_compra);
+        $this->db->from('detalle_compra');
+        $this->db->join('producto', 'detalle_compra.codigo_producto = producto.codigo_producto');
+        $this->db->join('categoria', 'producto.id_categoria = categoria.id_categoria');
+        $this->db->join('linea', 'producto.id_linea = linea.id_linea');
+        return $this->db->get();
+    }
+
+    function eliminar_compra($id) {
+        $this->db->where('id_detalle_compra', $id);
+        $this->db->delete('detalle_compra');
+        return 0;
+    }
+
 //**********VENTAS**********
-//**********INVENTARIO**********
 //**********PRODUCTOS**********
     function cargar_productos() {
         $this->db->select('*');
@@ -63,7 +108,10 @@ class modelo extends CI_Model {
     function seleccionar_producto($codigo) {
         $this->db->select('*');
         $this->db->where('codigo_producto', $codigo);
-        return $this->db->get('producto');
+        $this->db->from('producto');
+        $this->db->join('categoria', 'producto.id_categoria = categoria.id_categoria');
+        $this->db->join('linea', 'producto.id_linea = linea.id_linea');
+        return $this->db->get();
     }
 
     function eliminar_producto($codigo) {
