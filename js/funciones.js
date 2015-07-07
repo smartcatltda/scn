@@ -526,6 +526,12 @@ function cargar_venta() {
                                 }
                             });
                         });
+                    } else {
+                        if (datos.valor == 2) {
+                            $("#msg").hide();
+                            $("#msg").html("<label>Stock Insuficiente!</label>");
+                            $("#msg").css("color", "#FF0000").show('pulsate', 'slow').delay(3000).hide('fade', 'slow');
+                        }
                     }
                 }, "json"
                         );

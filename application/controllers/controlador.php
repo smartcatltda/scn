@@ -138,7 +138,15 @@ class controlador extends CI_Controller {
         $codigo = $this->input->post('codigo');
         $cantidad = $this->input->post('cantidad');
         $num_venta = $this->input->post('num_venta');
-        $this->modelo->insert_datalle_venta($codigo, $cantidad, $num_venta);
+        $stock = 0;
+        $dato = $this->modelo->seleccionar_producto($codigo)->result();
+        foreach ($dato as $fila) {
+            $stock = $fila->stock_producto;
+        }
+        $nuevo_stock = $stock - $cantidad;
+        if ($nuevo_stock >= 0) {
+            $this->modelo->insert_datalle_venta($codigo, $cantidad, $num_venta);
+        }
         $datos = $this->modelo->cargar_ventas($num_venta);
         $data ['ventas'] = $datos->result();
         $this->load->view("lista_venta", $data);
@@ -157,15 +165,20 @@ class controlador extends CI_Controller {
             $bajo_stock = $fila->bajo_stock;
         }
         $nuevo_stock = $stock - $cantidad;
-        $this->modelo->update_stock($codigo, $nuevo_stock);
-        if ($bajo_stock > $nuevo_stock) {
-            $diferencia = $nuevo_stock - $bajo_stock;
-            $valor = 1;
+        if ($nuevo_stock >= 0) {
+            $this->modelo->update_stock($codigo, $nuevo_stock);
+            if ($bajo_stock > $nuevo_stock) {
+                $diferencia = $nuevo_stock - $bajo_stock;
+                $valor = 1;
+            }
+        } else {
+            $valor = 2;
         }
+
         echo json_encode(array("valor" => $valor, "diferencia" => $diferencia));
     }
-    
-     function eliminar_venta() {
+
+    function eliminar_venta() {
         $id = $this->input->post('id');
         $codigo = $this->input->post('codigo');
         $cantidad = $this->input->post('cantidad');
