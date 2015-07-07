@@ -626,34 +626,40 @@ function insert_producto() {
     var stock = $("#mp_stock_producto").val();
     var bajo = $("#mp_bajo_stock").val();
     var sobre = $("#mp_sobre_stock").val();
-    if (codigo != "" && nombre != "") {
-        $.post(base_url + "controlador/insert_producto", {codigo: codigo, nombre: nombre, categoria: categoria, linea: linea, desc: desc, stock: stock, bajo: bajo, sobre: sobre},
-        function (data) {
+    if (codigo != "") {
+        if (nombre != "") {
+            $.post(base_url + "controlador/insert_producto", {codigo: codigo, nombre: nombre, categoria: categoria, linea: linea, desc: desc, stock: stock, bajo: bajo, sobre: sobre},
+            function (data) {
+                $("#msg").hide();
+                $("#msg").html("<label>" + data.msg + "</label>");
+                if (data.valor == 1) {
+                    $("#msg").css("color", "#55FF00").show('fade', 'slow').delay(3000).hide('fade', 'slow');
+                    $("#mp_codigo_producto").val("");
+                    $("#mp_nombre_producto").val("");
+                    $("#mp_descripcion_producto").val("");
+                    $("#mp_stock_producto").val("0");
+                    $("#mp_bajo_stock").val("0");
+                    $("#mp_sobre_stock").val("0");
+                    cargar_productos();
+                } else {
+                    $("#msg").css("color", "#FF0000").show('pulsate', 'slow').delay(3000).hide('fade', 'slow');
+                }
+            }, "json"
+                    );
+        } else {
             $("#msg").hide();
-            $("#msg").html("<label>" + data.msg + "</label>");
-            if (data.valor == 1) {
-                $("#msg").css("color", "#55FF00").show('fade', 'slow').delay(3000).hide('fade', 'slow');
-                $("#mp_codigo_producto").val("");
-                $("#mp_nombre_producto").val("");
-                $("#mp_descripcion_producto").val("");
-                $("#mp_stock_producto").val("0");
-                $("#mp_bajo_stock").val("0");
-                $("#mp_sobre_stock").val("0");
-                cargar_productos();
-            } else {
-                $("#msg").css("color", "#FF0000").show('pulsate', 'slow').delay(3000).hide('fade', 'slow');
-            }
-        }, "json"
-                );
+            $("#msg").html("<label>Ingrese Nombre de Producto</label>");
+            $("#msg").css("color", "#FF0000").show('pulsate', 'slow').delay(3000).hide('fade', 'slow');
+        }
     } else {
         $("#msg").hide();
-        $("#msg").html("<label>Ingrese Nombre y Código de Producto</label>");
+        $("#msg").html("<label>Ingrese Código de Producto</label>");
         $("#msg").css("color", "#FF0000").show('pulsate', 'slow').delay(3000).hide('fade', 'slow');
     }
 }
 
 function update_producto() {
-
+    var id = $("#mp_id_codigo_producto").val();
     var codigo = $("#mp_codigo_producto").val();
     var nombre = $("#mp_nombre_producto").val();
     var categoria = $("#mp_categoria").val();
@@ -662,39 +668,53 @@ function update_producto() {
     var bajo_stock = $("#mp_bajo_stock").val();
     var stock = $("#mp_stock_producto").val();
     var sobre_stock = $("#mp_sobre_stock").val();
-    if (codigo != "" && nombre != "") {
-        $.post(base_url + "controlador/update_producto", {codigo: codigo, nombre: nombre, categoria: categoria, linea: linea,
-            descripcion: descripcion, bajo_stock: bajo_stock, stock: stock, sobre_stock: sobre_stock},
-        function (datos) {
-            if (datos.valor == 0) {
+    if (id != "") {
+        if (codigo != "") {
+            if (nombre != "") {
+                $.post(base_url + "controlador/update_producto", {id: id, codigo: codigo, nombre: nombre, categoria: categoria, linea: linea,
+                    descripcion: descripcion, bajo_stock: bajo_stock, stock: stock, sobre_stock: sobre_stock},
+                function (datos) {
+                    if (datos.valor == 0) {
+                        $("#msg").hide();
+                        $("#msg").html("<label>Producto Modificado!</label>");
+                        $("#msg").css("color", "#55FF00").show('fade', 'slow').delay(3000).hide('fade', 'slow');
+                        $("#mp_id_codigo_producto").val("");
+                        $("#mp_codigo_producto").val("");
+                        $("#mp_nombre_producto").val("");
+                        $("#mp_descripcion_producto").val("");
+                        $("#mp_stock_producto").val("0");
+                        $("#mp_bajo_stock").val("0");
+                        $("#mp_sobre_stock").val("0");
+                        cargar_productos();
+                        foco('mp_codigo_producto');
+                    }
+                }, "json"
+                        );
+            } else {
                 $("#msg").hide();
-                $("#msg").html("<label>Producto Modificado!</label>");
-                $("#msg").css("color", "#55FF00").show('fade', 'slow').delay(3000).hide('fade', 'slow');
-                $("#mp_codigo_producto").val("");
-                $("#mp_nombre_producto").val("");
-                $("#mp_descripcion_producto").val("");
-                $("#mp_stock_producto").val("0");
-                $("#mp_bajo_stock").val("0");
-                $("#mp_sobre_stock").val("0");
-                cargar_productos();
-                foco('mp_codigo_producto');
+                $("#msg").html("<label>Ingrese Nombre del Producto!</label>");
+                $("#msg").css("color", "#FF0000").show('pulsate', 'slow').delay(3000).hide('fade', 'slow');
             }
-        }, "json"
-                );
+        } else {
+            $("#msg").hide();
+            $("#msg").html("<label>Ingrese Codigo del Producto!</label>");
+            $("#msg").css("color", "#FF0000").show('pulsate', 'slow').delay(3000).hide('fade', 'slow');
+        }
+
     } else {
         $("#msg").hide();
-        $("#msg").html("<label>Seleccione un Producto para editar</label>");
+        $("#msg").html("<label>Seleccione un Producto para editar!</label>");
         $("#msg").css("color", "#FF0000").show('pulsate', 'slow').delay(3000).hide('fade', 'slow');
     }
 
 }
-
 
 function  seleccionar_producto(codigo)
 {
     var codigo = codigo;
     $.post(base_url + "controlador/seleccionar_producto", {codigo: codigo},
     function (datos) {
+        $("#mp_id_codigo_producto").val(datos.codigo);
         $("#mp_codigo_producto").val(datos.codigo);
         $("#mp_nombre_producto").val(datos.nombre);
         $("#mp_categoria").val(datos.categoria);

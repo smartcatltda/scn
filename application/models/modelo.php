@@ -127,7 +127,7 @@ class modelo extends CI_Model {
         endif;
     }
 
-    function update_producto($codigo, $nombre, $categoria, $linea, $descripcion, $bajo_stock, $stock, $sobre_stock) {
+    function update_producto($id,$codigo, $nombre, $categoria, $linea, $descripcion, $bajo_stock, $stock, $sobre_stock) {
         $data = array(
             "codigo_producto" => $codigo,
             "nombre_producto" => $nombre,
@@ -138,7 +138,7 @@ class modelo extends CI_Model {
             "bajo_stock" => $bajo_stock,
             "sobre_stock" => $sobre_stock,
         );
-        $this->db->where('codigo_producto', $codigo);
+        $this->db->where('codigo_producto', $id);
         $this->db->update('producto', $data);
         return 0;
     }

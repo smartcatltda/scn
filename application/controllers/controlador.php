@@ -224,6 +224,7 @@ class controlador extends CI_Controller {
     }
 
     function update_producto() {
+        $id = $this->input->post('id');
         $codigo = $this->input->post('codigo');
         $nombre = $this->input->post('nombre');
         $categoria = $this->input->post('categoria');
@@ -233,7 +234,7 @@ class controlador extends CI_Controller {
         $stock = $this->input->post('stock');
         $sobre_stock = $this->input->post('sobre_stock');
 
-        if ($this->modelo->update_producto($codigo, $nombre, $categoria, $linea, $descripcion, $bajo_stock, $stock, $sobre_stock) == 0) {
+        if ($this->modelo->update_producto($id, $codigo, $nombre, $categoria, $linea, $descripcion, $bajo_stock, $stock, $sobre_stock) == 0) {
             $valor = 0;
         }
         echo json_encode(array("valor" => $valor));

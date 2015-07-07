@@ -152,31 +152,32 @@
 
                     </tr>
                     <tr>
-                        <td><input type="text" id="mp_codigo_producto" placeholder="Escanee Cód Barras" style="width: 130px; text-align: center" class="rounded" autofocus/></td>
-                        <td><input type="text" id="mp_nombre_producto" placeholder="Nombre del Poducto" style="width: 150px; text-align: center" class="rounded"/></td>
-                        <td><input type="text" id="mp_descripcion_producto" placeholder="Ingrese Descripción" style="width: 200px; text-align: center" class="rounded"/></td>
-                        <td><select class="rounded" id="mp_categoria" style="width: 200px; text-align: center"/></td>
-                        <td><select class="rounded" id="mp_linea" style="width: 100px; text-align: center"/></td>
-                        <td style="text-align: right; width: 200px;">
-                            <input type="number" value="0" id="mp_stock_producto" style="width: 40px; text-align: center" class="rounded"/>&nbsp;
-                            <input type="number" value="0" id="mp_bajo_stock" style="width: 40px; text-align: center" class="rounded"/>&nbsp;
-                            <input type="number" value="0" id="mp_sobre_stock" style="width: 40px; text-align: center" class="rounded"/>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td colspan="4"></td>
-                        <td colspan="2" rowspan="2" align="right">
-                            <button id="mp_bt_insert" style="width: 110px; text-align: center">Guardar</button>
-                            <button id="mp_bt_update" style="width: 110px; text-align: center">Editar</button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td colspan="2"><input type="text" id="mp_filtro" placeholder="Busqueda" value="" style="width: 290px; text-align: center" class="rounded"/></td>
-                        <td colspan="2"></td>
-                    </tr>
-                    <tr>
-                        <td colspan="6" style="height: 5px"></td>
-                    </tr>
+                <input type="text" hidden id="mp_id_codigo_producto" style="width: 1px;" />
+                <td><input type="text" id="mp_codigo_producto" placeholder="Escanee Cód Barras" style="width: 130px; text-align: center" class="rounded" autofocus/></td>
+                <td><input type="text" id="mp_nombre_producto" placeholder="Nombre del Poducto" style="width: 150px; text-align: center" class="rounded"/></td>
+                <td><input type="text" id="mp_descripcion_producto" placeholder="Ingrese Descripción" style="width: 200px; text-align: center" class="rounded"/></td>
+                <td><select class="rounded" id="mp_categoria" style="width: 200px; text-align: center"/></td>
+                <td><select class="rounded" id="mp_linea" style="width: 100px; text-align: center"/></td>
+                <td style="text-align: right; width: 200px;">
+                    <input type="number" value="0" id="mp_stock_producto" style="width: 40px; text-align: center" class="rounded"/>&nbsp;
+                    <input type="number" value="0" id="mp_bajo_stock" style="width: 40px; text-align: center" class="rounded"/>&nbsp;
+                    <input type="number" value="0" id="mp_sobre_stock" style="width: 40px; text-align: center" class="rounded"/>
+                </td>
+                </tr>
+                <tr>
+                    <td colspan="4"></td>
+                    <td colspan="2" rowspan="2" align="right">
+                        <button id="mp_bt_insert" style="width: 110px; text-align: center">Guardar</button>
+                        <button id="mp_bt_update" style="width: 110px; text-align: center">Editar</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2"><input type="text" id="mp_filtro" placeholder="Busqueda" value="" style="width: 290px; text-align: center" class="rounded"/></td>
+                    <td colspan="2"></td>
+                </tr>
+                <tr>
+                    <td colspan="6" style="height: 5px"></td>
+                </tr>
                 </tbody>
             </table>
             <div id="lista_productos"></div>
