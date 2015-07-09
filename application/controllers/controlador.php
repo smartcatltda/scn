@@ -242,21 +242,29 @@ class controlador extends CI_Controller {
 
     function seleccionar_producto() {
         $codigo = $this->input->post('codigo');
+        $valor = 0;
         $datos = $this->modelo->seleccionar_producto($codigo)->result();
-        foreach ($datos as $fila) {
-            $codigo_producto = $fila->codigo_producto;
-            $nombre = $fila->nombre_producto;
-            $categoria = $fila->id_categoria;
-            $linea = $fila->id_linea;
-            $descripcion = $fila->descripcion_producto;
-            $bajo_stock = $fila->bajo_stock;
-            $stock = $fila->stock_producto;
-            $sobre_stock = $fila->sobre_stock;
-            $nombre_categoria = $fila->nombre_categoria;
-            $nombre_linea = $fila->nombre_linea;
+        $cont = $this->modelo->seleccionar_producto($codigo)->num_rows();
+        if ($cont > 0) {
+            $valor = 1;
+            foreach ($datos as $fila) {
+                $codigo_producto = $fila->codigo_producto;
+                $nombre = $fila->nombre_producto;
+                $categoria = $fila->id_categoria;
+                $linea = $fila->id_linea;
+                $descripcion = $fila->descripcion_producto;
+                $bajo_stock = $fila->bajo_stock;
+                $stock = $fila->stock_producto;
+                $sobre_stock = $fila->sobre_stock;
+                $nombre_categoria = $fila->nombre_categoria;
+                $nombre_linea = $fila->nombre_linea;
+            }
+            echo json_encode(array("valor" => $valor, "codigo" => $codigo_producto, "nombre" => $nombre, "descripcion" => $descripcion,
+                "categoria" => $categoria, "linea" => $linea, "bajo_stock" => $bajo_stock, "stock" => $stock,
+                "sobre_stock" => $sobre_stock, "nombre_linea" => $nombre_linea, "nombre_categoria" => $nombre_categoria));
+        } else {
+            echo json_encode(array("valor" => $valor));
         }
-        echo json_encode(array("codigo" => $codigo_producto, "nombre" => $nombre, "descripcion" => $descripcion,
-            "categoria" => $categoria, "linea" => $linea, "bajo_stock" => $bajo_stock, "stock" => $stock, "sobre_stock" => $sobre_stock, "nombre_linea" => $nombre_linea, "nombre_categoria" => $nombre_categoria));
     }
 
     function estado_producto() {
@@ -446,7 +454,7 @@ class controlador extends CI_Controller {
         $tipo = $this->input->post('tipo');
         $fecha = $this->input->post('fecha');
         list($ano, $mes, $dia) = explode("/", $fecha);
-        
+
 
         if ($tipo == "rc") {
             $datos["mensual_rc"] = $this->modelo->mensual_rc($mes, $ano)->result();
@@ -498,20 +506,19 @@ class controlador extends CI_Controller {
             }
         }
     }
-    
+
     function reporte_bajo() {
-            $datos["r_bajo"] = $this->modelo->r_bajo()->result();
-            $datos["cantidad"] = $this->modelo->r_bajo()->num_rows();
-            $this->load->view("r_alertas_stock", $datos);
+        $datos["r_bajo"] = $this->modelo->r_bajo()->result();
+        $datos["cantidad"] = $this->modelo->r_bajo()->num_rows();
+        $this->load->view("r_alertas_stock", $datos);
     }
-    
+
     function reporte_sobre() {
-            $datos["r_sobre"] = $this->modelo->r_sobre()->result();
-            $datos["cantidad"] = $this->modelo->r_sobre()->num_rows();
-            $this->load->view("r_alertas_stock", $datos);
+        $datos["r_sobre"] = $this->modelo->r_sobre()->result();
+        $datos["cantidad"] = $this->modelo->r_sobre()->num_rows();
+        $this->load->view("r_alertas_stock", $datos);
     }
-    
-    
+
 //    function reporte_semanal() {
 //        $tipo = $this->input->post('tipo');
 //        $fecha = $this->input->post('fecha');
@@ -538,7 +545,6 @@ class controlador extends CI_Controller {
 //            }
 //        }
 //    }
-    
 }
 
 /* End of file welcome.php */

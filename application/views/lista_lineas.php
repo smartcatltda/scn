@@ -25,6 +25,11 @@
                             <tr align="center">
                                 <td width="50"><?= $fila->id_linea ?></td>
                                 <td width="150"><?= $fila->nombre_linea ?></td>
+                                <?php
+                                if ($fila->descripcion_linea == ""):
+                                    $fila->descripcion_linea = "-";
+                                endif;
+                                ?>
                                 <td width="150"><?= $fila->descripcion_linea ?></td>  
                                 <td width="80"><input type="image" src="css/images/arrow-left-icon.png" onclick="seleccionar_linea('<?= $fila->id_linea ?>')" style="width:24px;"/></td>
                                 <?php

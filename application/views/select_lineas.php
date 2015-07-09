@@ -1,5 +1,5 @@
 <?php if ($cantidad == 0): ?>
-<option>N/D</option>
+<option value="0">N/D</option>
 <?php
 else:
     ?>

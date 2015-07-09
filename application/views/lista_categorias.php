@@ -25,6 +25,11 @@
                             <tr align="center">
                                 <td width="50"><?= $fila->id_categoria ?></td>
                                 <td width="150"><?= $fila->nombre_categoria ?></td>
+                                <?php
+                                if ($fila->descripcion_categoria == ""):
+                                    $fila->descripcion_categoria = "-";
+                                endif;
+                                ?>
                                 <td width="150"><?= $fila->descripcion_categoria ?></td>  
                                 <td width="80"><input type="image" src="css/images/arrow-left-icon.png" onclick="seleccionar_categoria('<?= $fila->id_categoria ?>')" style="width:24px;"/></td>
                                 <?php

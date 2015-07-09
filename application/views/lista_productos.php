@@ -32,6 +32,11 @@
                                 <td width="100"><?= $fila->nombre_producto ?></td>
                                 <td width="120"><?= $fila->nombre_categoria ?></td>
                                 <td width="100"><?= $fila->nombre_linea ?></td>
+                                <?php
+                                if ($fila->descripcion_producto == ""):
+                                    $fila->descripcion_producto = "-";
+                                endif;
+                                ?>
                                 <td width="150"><?= $fila->descripcion_producto ?></td>  
                                 <td width="70"><?= $fila->stock_producto ?></td>
                                 <td width="70"><?= $fila->bajo_stock ?></td>
@@ -40,11 +45,11 @@
                                 <?php
                                 if ($fila->estado_producto == 0):
                                     ?>
-                                <td width="73"><input type="image" src="css/images/Accept-icon.png" onclick="estado_producto('<?= $fila->codigo_producto ?>','<?= $fila->estado_producto ?>')" style="width:24px;"/></td>
+                                    <td width="73"><input type="image" src="css/images/Accept-icon.png" onclick="estado_producto('<?= $fila->codigo_producto ?>', '<?= $fila->estado_producto ?>')" style="width:24px;"/></td>
                                     <?php
                                 else:
                                     ?>
-                                    <td width="73"><input type="image" src="css/images/eliminar.png" onclick="estado_producto('<?= $fila->codigo_producto ?>','<?= $fila->estado_producto ?>')" style="width:24px;"/></td>
+                                    <td width="73"><input type="image" src="css/images/eliminar.png" onclick="estado_producto('<?= $fila->codigo_producto ?>', '<?= $fila->estado_producto ?>')" style="width:24px;"/></td>
                                 </tr>
                             <?php
                             endif;

@@ -24,7 +24,7 @@
         <button id="menuinicio">Inicio</button>
         <button id="menucompras">Compras</button>
         <button id="menuventas">Ventas</button>
-        <button id="menuinventario">Inventario</button>
+        <button id="menuinventario" onclick="foco('mp_codigo_producto')">Inventario</button>
         <button id="menureportes">Reportes</button>
         <button style="float: right" id="menusalir">Cerrar Sesión</button>
     </div>

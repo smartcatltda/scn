@@ -7,6 +7,10 @@
         La compra realizada supero el indice de sobre stock del Producto.
     </p>
 </div>
+<div hidden id="dialog-confirm" title="Alerta">
+    <p><span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;"></span>El producto no se encuentra registrado.</p>
+    <p>¿ Desea Registrarlo ?</p>
+</div>
 
 <div id="login" class="centrar" hidden>
     <div class="login" style="z-index: -1">
@@ -52,13 +56,12 @@
                 </tr>
                 <tr>
                     <td><input type="text" readonly id="c_num_compra" placeholder="N° Compra" style="width: 90px; text-align: center" class="rounded"/></td>
-                    <td><input type="text" readonly id="c_codigo_producto" placeholder="Escanee Cód Barras" style="width: 150px; text-align: center" class="rounded" autofocus/></td>
+                    <td><input type="text" readonly id="c_codigo_producto" placeholder="Escanee Cód Barras" style="width: 150px; text-align: center" class="rounded"maxlength="13" onkeypress="return validar_texto(event)"/></td>
                     <td><input type="text" readonly id="c_nombre_producto" placeholder="Nombre del Poducto" style="width: 170px; text-align: center" class="rounded"/></td>
                     <td><input type="text" readonly id="c_descripcion_producto" placeholder="Descripción" style="width: 200px; text-align: center" class="rounded"/></td>
                     <td><input type="text" readonly id="c_categoria" placeholder="Categoría" style="width: 130px; text-align: center" class="rounded"/></td>
                     <td><input type="text" readonly id="c_linea" placeholder="Línea" style="width: 130px; text-align: center" class="rounded"/></td>
-                    <td><input type="text" readonly id="c_cantidad" placeholder="Cantidad" style="width: 100px; text-align: center" class="rounded"/></td>
-
+                    <td><input type="text" readonly id="c_cantidad" placeholder="Cantidad" style="width: 100px; text-align: center" class="rounded" onkeypress="return validar_texto(event)"/></td>
                 </tr>
                 <tr>
                     <td colspan="5"></td>
@@ -101,12 +104,12 @@
                 </tr>
                 <tr>
                     <td><input type="text" readonly id="v_num_venta" placeholder="N° Venta" style="width: 90px; text-align: center" class="rounded"/></td>
-                    <td><input type="text" readonly id="v_codigo_producto" placeholder="Escanee Cód Barras" style="width: 150px; text-align: center" class="rounded" autofocus/></td>
+                    <td><input type="text" readonly id="v_codigo_producto" placeholder="Escanee Cód Barras" style="width: 150px; text-align: center" class="rounded" maxlength="13" onkeypress="return validar_texto(event)"/></td>
                     <td><input type="text" readonly id="v_nombre_producto" placeholder="Nombre del Poducto" style="width: 170px; text-align: center" class="rounded"/></td>
                     <td><input type="text" readonly id="v_descripcion_producto" placeholder="Descripción" style="width: 200px; text-align: center" class="rounded"/></td>
                     <td><input type="text" readonly id="v_categoria" placeholder="Categoría" style="width: 130px; text-align: center" class="rounded"/></td>
                     <td><input type="text" readonly id="v_linea" placeholder="Línea" style="width: 130px; text-align: center" class="rounded"/></td>
-                    <td><input type="text" readonly id="v_cantidad" placeholder="Cantidad" style="width: 100px; text-align: center" class="rounded"/></td>
+                    <td><input type="text" readonly id="v_cantidad" placeholder="Cantidad" style="width: 100px; text-align: center" class="rounded" onkeypress="return validar_texto(event)"/></td>
 
                 </tr>
                 <tr>
@@ -126,9 +129,9 @@
     <div id="inventario" class="contablas" hidden>
         <div style="font-size: 12px;">
             <ul>
-                <li><a href="#1-productos">Productos</a></li>
-                <li><a href="#2-lineas">Líneas</a></li>
-                <li><a href="#3-categorias">Categorías</a></li>
+                <li><a onclick="foco('mp_codigo_producto')" href="#1-productos">Productos</a></li>
+                <li><a onclick="foco('ml_nombre_linea')" href="#2-lineas">Líneas</a></li>
+                <li><a onclick="foco('mc_nombre_categoria')"href="#3-categorias">Categorías</a></li>
             </ul>
         </div>
         <div id="1-productos">
@@ -153,10 +156,10 @@
                     </tr>
                     <tr>
                 <input type="text" hidden id="mp_id_codigo_producto" style="width: 1px;" />
-                <td><input type="text" id="mp_codigo_producto" placeholder="Escanee Cód Barras" style="width: 130px; text-align: center" class="rounded" autofocus/></td>
-                <td><input type="text" id="mp_nombre_producto" placeholder="Nombre del Poducto" style="width: 150px; text-align: center" class="rounded"/></td>
-                <td><input type="text" id="mp_descripcion_producto" placeholder="Ingrese Descripción" style="width: 200px; text-align: center" class="rounded"/></td>
-                <td><select class="rounded" id="mp_categoria" style="width: 200px; text-align: center"/></td>
+                <td><input type="text" id="mp_codigo_producto" placeholder="Escanee Cód Barras" style="width: 130px; text-align: center" class="rounded" maxlength="13" onkeypress="return validar_texto(event)" onkeyup="enter_mp_codigo(event)"/></td>
+                <td><input type="text" id="mp_nombre_producto" placeholder="Nombre del Poducto" style="width: 150px; text-align: center" class="rounded" onkeypress="enter_mp_nombre(event)"/></td>
+                <td><input type="text" id="mp_descripcion_producto" placeholder="Ingrese Descripción" style="width: 200px; text-align: center" class="rounded" onkeypress="enter_mp_desc(event)"/></td>
+                <td><select class="rounded" id="mp_categoria" style="width: 200px; text-align: center" onkeypress="enter_mp_cat(event)"/></td>
                 <td><select class="rounded" id="mp_linea" style="width: 100px; text-align: center"/></td>
                 <td style="text-align: right; width: 200px;">
                     <input type="number" value="0" id="mp_stock_producto" style="width: 40px; text-align: center" class="rounded"/>&nbsp;
@@ -199,11 +202,11 @@
                     </tr>
                     <tr>
                         <td style="text-align: left">Nombre: </td>
-                        <td><input type="text" id="ml_nombre_linea" placeholder="Nombre Línea" style="width: 200px; text-align: center" class="rounded"/></td>
+                        <td><input type="text" id="ml_nombre_linea" placeholder="Nombre Línea" style="width: 200px; text-align: center" class="rounded" onkeypress="enter_ml_nombre(event)"/></td>
                     </tr>
                     <tr>
                         <td style="text-align: left">Descripción: </td>
-                        <td><input type="text" id="ml_descripcion_linea" placeholder="Ingrese Descripción" style="width: 200px; text-align: center" class="rounded"/></td>
+                        <td><input type="text" id="ml_descripcion_linea" placeholder="Ingrese Descripción" style="width: 200px; text-align: center" class="rounded" onkeypress="enter_ml_desc(event)"/></td>
                     </tr>
                     <tr>
                         <td colspan="2" style="height: 10px"></td>
@@ -234,11 +237,11 @@
                     </tr>
                     <tr>
                         <td style="text-align: left">Nombre: </td>
-                        <td><input type="text" id="mc_nombre_categoria" placeholder="Nombre Categoría" style="width: 200px; text-align: center" class="rounded"/></td>
+                        <td><input type="text" id="mc_nombre_categoria" placeholder="Nombre Categoría" style="width: 200px; text-align: center" class="rounded" onkeypress="enter_mc_nombre(event)"/></td>
                     </tr>
                     <tr>
                         <td style="text-align: left">Descripción: </td>
-                        <td><input type="text" id="mc_descripcion_categoria" placeholder="Ingrese Descripción" style="width: 200px; text-align: center" class="rounded"/></td>
+                        <td><input type="text" id="mc_descripcion_categoria" placeholder="Ingrese Descripción" style="width: 200px; text-align: center" class="rounded" onkeypress="enter_mc_desc(event)"/></td>
                     </tr>
                     <tr>
                         <td colspan="2" style="height: 10px"></td>

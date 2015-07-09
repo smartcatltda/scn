@@ -27,6 +27,11 @@
                             <td width="100"><?= $fila->nombre_producto ?></td>
                             <td width="120"><?= $fila->nombre_categoria ?></td>
                             <td width="100"><?= $fila->nombre_linea ?></td>
+                            <?php
+                            if ($fila->descripcion_producto == ""):
+                                $fila->descripcion_producto = "-";
+                            endif;
+                            ?>
                             <td width="150"><?= $fila->descripcion_producto ?></td>  
                             <td width="70"><?= $fila->cantidad ?></td>
                             <td width="70"><input type="image" src="css/images/eliminar.png" onclick="eliminar_venta('<?= $fila->id_detalle_venta ?>', '<?= $fila->codigo_producto ?>', '<?= $fila->cantidad ?>')" style="width:24px;"/></td>
