@@ -58,6 +58,15 @@ class modelo extends CI_Model {
     }
 
 //**********VENTAS**********
+    function cargar_productos_activos() {
+        $this->db->select('*');
+        $this->db->from('producto');
+        $this->db->where('estado_producto', '0');
+        $this->db->join('categoria', 'producto.id_categoria = categoria.id_categoria');
+        $this->db->join('linea', 'producto.id_linea = linea.id_linea');
+        return $this->db->get();
+    }
+
     function cargar_ventas($num_venta) {
         $this->db->select('*');
         $this->db->where('id_venta', $num_venta);
@@ -127,7 +136,7 @@ class modelo extends CI_Model {
         endif;
     }
 
-    function update_producto($id,$codigo, $nombre, $categoria, $linea, $descripcion, $bajo_stock, $stock, $sobre_stock) {
+    function update_producto($id, $codigo, $nombre, $categoria, $linea, $descripcion, $bajo_stock, $stock, $sobre_stock) {
         $data = array(
             "codigo_producto" => $codigo,
             "nombre_producto" => $nombre,
@@ -146,6 +155,7 @@ class modelo extends CI_Model {
     function seleccionar_producto($codigo) {
         $this->db->select('*');
         $this->db->where('codigo_producto', $codigo);
+        $this->db->where('estado_producto', '0');
         $this->db->from('producto');
         $this->db->join('categoria', 'producto.id_categoria = categoria.id_categoria');
         $this->db->join('linea', 'producto.id_linea = linea.id_linea');
@@ -287,9 +297,8 @@ class modelo extends CI_Model {
     }
 
 //**********REPORTES**********
-
     //REPORTES DIARIOS
-    
+
     function diario_dc($fecha) {
         $this->db->select('*');
         $this->db->from('detalle_compra');
@@ -321,7 +330,7 @@ class modelo extends CI_Model {
         $this->db->where('venta.fecha_venta', $fecha);
         return $this->db->get();
     }
-    
+
     function diario_rv($fecha) {
         $this->db->select('*');
         $this->db->select_sum('cantidad', 'productos');
@@ -331,7 +340,7 @@ class modelo extends CI_Model {
         $this->db->group_by('venta.id_venta');
         return $this->db->get();
     }
-    
+
     function diario_pc($fecha) {
         $this->db->select('*');
         $this->db->select_sum('cantidad', 'productos');
@@ -344,7 +353,7 @@ class modelo extends CI_Model {
         $this->db->group_by('producto.codigo_producto');
         return $this->db->get();
     }
-    
+
     function diario_pv($fecha) {
         $this->db->select('*');
         $this->db->select_sum('cantidad', 'productos');
@@ -357,9 +366,9 @@ class modelo extends CI_Model {
         $this->db->group_by('producto.codigo_producto');
         return $this->db->get();
     }
-    
+
     //REPORTES MENSUALES
-    
+
     function mensual_rc($mes, $ano) {
         $this->db->select('*');
         $this->db->select_sum('cantidad', 'productos');
@@ -370,7 +379,7 @@ class modelo extends CI_Model {
         $this->db->group_by('compra.id_compra');
         return $this->db->get();
     }
-    
+
     function mensual_rv($mes, $ano) {
         $this->db->select('*');
         $this->db->select_sum('cantidad', 'productos');
@@ -381,7 +390,7 @@ class modelo extends CI_Model {
         $this->db->group_by('venta.id_venta');
         return $this->db->get();
     }
-    
+
     function mensual_pc($mes, $ano) {
         $this->db->select('*');
         $this->db->select_sum('cantidad', 'productos');
@@ -395,7 +404,7 @@ class modelo extends CI_Model {
         $this->db->group_by('producto.codigo_producto');
         return $this->db->get();
     }
-    
+
     function mensual_pv($mes, $ano) {
         $this->db->select('*');
         $this->db->select_sum('cantidad', 'productos');
@@ -409,11 +418,10 @@ class modelo extends CI_Model {
         $this->db->group_by('producto.codigo_producto');
         return $this->db->get();
     }
-    
+
     //REPORTES SEMANALES
-    
     //REPORTES ANUALES
-    
+
     function anual_rc($ano) {
         $this->db->select('*');
         $this->db->select_sum('cantidad', 'productos');
@@ -423,7 +431,7 @@ class modelo extends CI_Model {
         $this->db->group_by('compra.id_compra');
         return $this->db->get();
     }
-    
+
     function anual_rv($ano) {
         $this->db->select('*');
         $this->db->select_sum('cantidad', 'productos');
@@ -433,7 +441,7 @@ class modelo extends CI_Model {
         $this->db->group_by('venta.id_venta');
         return $this->db->get();
     }
-    
+
     function anual_pc($ano) {
         $this->db->select('*');
         $this->db->select_sum('cantidad', 'productos');
@@ -446,7 +454,7 @@ class modelo extends CI_Model {
         $this->db->group_by('producto.codigo_producto');
         return $this->db->get();
     }
-    
+
     function anual_pv($ano) {
         $this->db->select('*');
         $this->db->select_sum('cantidad', 'productos');
@@ -459,9 +467,9 @@ class modelo extends CI_Model {
         $this->db->group_by('producto.codigo_producto');
         return $this->db->get();
     }
-    
+
     //REPORTES STOCK
-    
+
     function r_bajo() {
         $this->db->select('*');
         $this->db->from('producto');
@@ -471,7 +479,7 @@ class modelo extends CI_Model {
         $this->db->where('bajo_stock > stock_producto');
         return $this->db->get();
     }
-    
+
     function r_sobre() {
         $this->db->select('*');
         $this->db->from('producto');
@@ -481,5 +489,5 @@ class modelo extends CI_Model {
         $this->db->where('sobre_stock < stock_producto');
         return $this->db->get();
     }
-    
+
 }

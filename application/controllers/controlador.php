@@ -48,6 +48,13 @@ class controlador extends CI_Controller {
     }
 
 //**********COMPRAS**********
+    function c_busq_productos() {
+        $datos = $this->modelo->cargar_productos_activos();
+        $data ['cantidad'] = $datos->num_rows();
+        $data ['productos'] = $datos->result();
+        $this->load->view("c_busq_productos", $data);
+    }
+
     function crear_compra() {
         date_default_timezone_set("America/Argentina/Buenos_Aires");
         $fecha = date('Y-m-d');
@@ -116,6 +123,13 @@ class controlador extends CI_Controller {
     }
 
 //**********VENTAS**********
+    function busq_productos() {
+        $datos = $this->modelo->cargar_productos_activos();
+        $data ['cantidad'] = $datos->num_rows();
+        $data ['productos'] = $datos->result();
+        $this->load->view("busq_productos", $data);
+    }
+
     function crear_venta() {
         date_default_timezone_set("America/Argentina/Buenos_Aires");
         $fecha = date('Y-m-d');
@@ -130,6 +144,7 @@ class controlador extends CI_Controller {
     function cargar_ventas() {
         $num_venta = $this->input->post('num_venta');
         $datos = $this->modelo->cargar_ventas($num_venta);
+        $data ['cantidad'] = $datos->num_rows();
         $data ['ventas'] = $datos->result();
         $this->load->view("lista_venta", $data);
     }
@@ -148,6 +163,7 @@ class controlador extends CI_Controller {
             $this->modelo->insert_datalle_venta($codigo, $cantidad, $num_venta);
         }
         $datos = $this->modelo->cargar_ventas($num_venta);
+        $data ['cantidad'] = $datos->num_rows();
         $data ['ventas'] = $datos->result();
         $this->load->view("lista_venta", $data);
     }
