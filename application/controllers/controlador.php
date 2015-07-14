@@ -152,16 +152,8 @@ class controlador extends CI_Controller {
     function cargar_venta() {
         $codigo = $this->input->post('codigo');
         $cantidad = $this->input->post('cantidad');
-        $num_venta = $this->input->post('num_venta');
-        $stock = 0;
-        $dato = $this->modelo->seleccionar_producto($codigo)->result();
-        foreach ($dato as $fila) {
-            $stock = $fila->stock_producto;
-        }
-        $nuevo_stock = $stock - $cantidad;
-        if ($nuevo_stock >= 0) {
-            $this->modelo->insert_datalle_venta($codigo, $cantidad, $num_venta);
-        }
+        $num_venta = $this->input->post('num_venta');     
+        $this->modelo->insert_datalle_venta($codigo, $cantidad, $num_venta);
         $datos = $this->modelo->cargar_ventas($num_venta);
         $data ['cantidad'] = $datos->num_rows();
         $data ['ventas'] = $datos->result();
@@ -189,6 +181,7 @@ class controlador extends CI_Controller {
             }
         } else {
             $valor = 2;
+            $this->modelo->update_stock($codigo, $nuevo_stock);
         }
 
         echo json_encode(array("valor" => $valor, "diferencia" => $diferencia));

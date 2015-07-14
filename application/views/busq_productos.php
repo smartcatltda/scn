@@ -10,6 +10,7 @@
                         <th width="120">CATEGORÍA</th>
                         <th width="100">LÍNEA</th>
                         <th width="150">DESCRIPCIÓN</th>
+                        <th width="50">STOCK</th>
                         <th width="73">CARGAR</th>
                     </tr>
                 </table>
@@ -32,7 +33,8 @@
                                     $fila->descripcion_producto = "-";
                                 endif;
                                 ?>
-                                <td width="150"><?= $fila->descripcion_producto ?></td>  
+                                <td width="150"><?= $fila->descripcion_producto ?></td> 
+                                <td width="50"><?= $fila->stock_producto ?></td>
                                 <td width="73"><input type="image" src="css/images/arrow-left-icon.png" onclick="selec_busq_producto('<?= $fila->codigo_producto ?>')" style="width:24px;" /></td>
                             </tr>
                             <?php

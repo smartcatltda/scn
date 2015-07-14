@@ -7,6 +7,12 @@
         La compra realizada supero el indice de sobre stock del Producto.
     </p>
 </div>
+<div hidden id="dialog-stock" title="Stock Insuficiente">
+    <p>
+        <span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 50px 0;"></span>
+   Revise el inventario una vez concluida la venta.
+    </p>
+</div>
 <div hidden id="dialog-confirm" title="Alerta">
     <p><span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;"></span>El producto no se encuentra registrado.</p>
     <p>¿ Desea Registrarlo ?</p>

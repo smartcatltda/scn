@@ -487,7 +487,6 @@ function cargar_compra() {
                         {codigo: codigo, cantidad: cantidad},
                 function (datos) {
                     if (datos.valor == 1) {
-                        cargar_productos();
                         $("#dialog-message").html("<p><span class='ui-icon ui-icon-alert' style='float:left; margin:0 7px 50px 0;'></span> Sobre Stock de : " + datos.diferencia + " Unidades</p>");
                         $(function () {
                             $('audio')[0].play();
@@ -503,6 +502,7 @@ function cargar_compra() {
                             });
                         });
                     }
+                    cargar_productos();
                 }, "json"
                         );
             } else {
@@ -569,6 +569,7 @@ function eliminar_compra(id, codigo, cantidad) {
             $("#msg").html("<label>Compra Eliminada!</label>");
             $("#msg").css("color", "#55FF00").show('fade', 'slow').delay(3000).hide('fade', 'slow');
             recargar_compras();
+            cargar_productos();
             foco('c_codigo_producto');
         }
     }, "json"
@@ -586,6 +587,10 @@ function cerrar_compra() {
     $("#c_bt_cargar").button("refresh");
     $("#c_bt_limpiar").attr("disabled", true);
     $("#c_bt_limpiar").button("refresh");
+    $("#c_bt_cerrar_compra").attr("disabled", true);
+    $("#c_bt_cerrar_compra").button("refresh");
+    $('#c_filtro').attr('readonly', true);
+
 }
 
 function limpiar_compra() {
@@ -597,6 +602,8 @@ function limpiar_compra() {
     $("#c_linea").val("");
     $("#c_descripcion_producto").val("");
     $("#c_cantidad").val("");
+    $("#c_filtro").val("");
+    $("#c_busq_productos").hide();
     foco('c_codigo_producto');
 }
 
@@ -639,7 +646,6 @@ function cargar_venta() {
                         {codigo: codigo, cantidad: cantidad},
                 function (datos) {
                     if (datos.valor == 1) {
-                        cargar_productos();
                         $("#dialog-message").html("<p><span class='ui-icon ui-icon-alert' style='float:left; margin:0 7px 50px 0;'></span>" + datos.diferencia + " Unidades Bajo el indice del Stock</p>");
                         $(function () {
                             $('audio')[0].play();
@@ -656,11 +662,21 @@ function cargar_venta() {
                         });
                     } else {
                         if (datos.valor == 2) {
-                            $("#msg").hide();
-                            $("#msg").html("<label>Stock Insuficiente!</label>");
-                            $("#msg").css("color", "#FF0000").show('pulsate', 'slow').delay(3000).hide('fade', 'slow');
+                            $(function () {
+                                $('audio')[0].play();
+                                $("#dialog-stock").dialog({
+                                    modal: true,
+                                    buttons: {
+                                        Ok: function () {
+                                            $("#dialog-stock").show();
+                                            $(this).dialog("close");
+                                        }
+                                    }
+                                });
+                            });
                         }
                     }
+                    cargar_productos();
                 }, "json"
                         );
             } else {
@@ -690,6 +706,7 @@ function eliminar_venta(id, codigo, cantidad) {
             $("#msg").html("<label>Venta Eliminada!</label>");
             $("#msg").css("color", "#55FF00").show('fade', 'slow').delay(3000).hide('fade', 'slow');
             recargar_ventas();
+            cargar_productos();
             foco('v_codigo_producto');
         }
     }, "json"
@@ -744,6 +761,9 @@ function cerrar_venta() {
     $("#v_bt_cargar").button("refresh");
     $("#v_bt_limpiar").attr("disabled", true);
     $("#v_bt_limpiar").button("refresh");
+    $("#v_bt_cerrar_venta").attr("disabled", true);
+    $("#v_bt_cerrar_venta").button("refresh");
+    $('#v_filtro').attr('readonly', true);
 }
 
 function limpiar_venta() {
@@ -755,6 +775,8 @@ function limpiar_venta() {
     $("#v_linea").val("");
     $("#v_descripcion_producto").val("");
     $("#v_cantidad").val("");
+    $("#v_filtro").val("");
+    $("#busq_productos").hide();
     foco('v_codigo_producto');
 }
 
