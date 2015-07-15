@@ -48,6 +48,15 @@ class controlador extends CI_Controller {
     }
 
 //**********COMPRAS**********
+    
+    function mantener_compra() {
+        $datos = $this->modelo->mantener_compra()->result();
+        foreach ($datos as $fila) {
+            $id_compra = $fila->id_compra;
+        }
+        echo json_encode(array("id" => $id_compra));
+    }
+
     function crear_compra() {
         date_default_timezone_set("America/Argentina/Buenos_Aires");
         $fecha = date('Y-m-d');
@@ -115,7 +124,25 @@ class controlador extends CI_Controller {
         $this->load->view("lista_compra", $data);
     }
 
+    function cerrar_compra() {
+        $num_compra = $this->input->post('num_compra');
+        $valor = 0;
+        if ($this->modelo->cerrar_compra($num_compra) == 0) {
+            $valor = 1;
+        }
+        echo json_encode(array("valor" => $valor));
+    }
+
 //**********VENTAS**********
+    
+    function mantener_venta() {
+        $datos = $this->modelo->mantener_venta()->result();
+        foreach ($datos as $fila) {
+            $id_venta = $fila->id_venta;
+        }
+        echo json_encode(array("id" => $id_venta));
+    }
+
     function crear_venta() {
         date_default_timezone_set("America/Argentina/Buenos_Aires");
         $fecha = date('Y-m-d');
@@ -191,6 +218,15 @@ class controlador extends CI_Controller {
         $nuevo_stock = $stock + $cantidad;
         $this->modelo->update_stock($codigo, $nuevo_stock);
         if ($this->modelo->eliminar_venta($id) == 0) {
+            $valor = 1;
+        }
+        echo json_encode(array("valor" => $valor));
+    }
+
+    function cerrar_venta() {
+        $num_venta = $this->input->post('num_venta');
+        $valor = 0;
+        if ($this->modelo->cerrar_venta($num_venta) == 0) {
             $valor = 1;
         }
         echo json_encode(array("valor" => $valor));

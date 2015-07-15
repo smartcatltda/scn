@@ -13,6 +13,7 @@
 </div>
 
 <div id="login" class="centrar" hidden>
+    
     <div class="login" style="z-index: -1">
         <div style="font-size: 20px;"><h1>Inicio de Sesión</h1></div>
         <hr style="width: 35%;"><br>
@@ -23,13 +24,17 @@
         <hr style="width: 35%;"><br>
         <h4 id="caplock" style="visibility:hidden">Bloqueo de mayúscula activado</h4>
     </div>
+    
 </div>
 
 <div id="contenido" class="centrar" hidden>
 
     <div id="inicio"></div>
+    
     <!--*************COMPRAS***************-->
+    
     <div id="compras" class="contenido" hidden>
+        
         <table width="1024">
             <caption style="text-align: center; font-size: 16px;">Compras</caption>
             <tr> 

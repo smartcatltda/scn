@@ -3,6 +3,7 @@
 class modelo extends CI_Model {
 
 //CONEXION
+    
     function conectar($user, $pass) {
         $this->db->select('*');
         $this->db->where('user', $user);
@@ -11,6 +12,14 @@ class modelo extends CI_Model {
     }
 
 //**********COMPRAS**********
+    
+    function mantener_compra() {
+        $this->db->select('*');
+        $this->db->from('compra');
+        $this->db->where('estado_compra', 0);
+        return $this->db->get();
+    }
+    
     function crear_compra($fecha, $hora) {
         $data = array(
             "fecha_compra" => $fecha,
@@ -57,7 +66,24 @@ class modelo extends CI_Model {
         return 0;
     }
 
+    function cerrar_compra($num_compra) {
+        $data = array(
+            "estado_compra" => 1,
+        );
+        $this->db->where('id_compra', $num_compra);
+        $this->db->update('compra', $data);
+        return 0;
+    }
+
 //**********VENTAS**********
+    
+    function mantener_venta() {
+        $this->db->select('*');
+        $this->db->from('venta');
+        $this->db->where('estado_venta', 0);
+        return $this->db->get();
+    }
+    
     function cargar_ventas($num_venta) {
         $this->db->select('*');
         $this->db->where('id_venta', $num_venta);
@@ -96,7 +122,17 @@ class modelo extends CI_Model {
         return 0;
     }
 
+    function cerrar_venta($num_venta) {
+        $data = array(
+            "estado_venta" => 1,
+        );
+        $this->db->where('id_venta', $num_venta);
+        $this->db->update('venta', $data);
+        return 0;
+    }
+    
 //**********PRODUCTOS**********
+    
     function cargar_productos() {
         $this->db->select('*');
         $this->db->from('producto');
@@ -127,7 +163,7 @@ class modelo extends CI_Model {
         endif;
     }
 
-    function update_producto($id,$codigo, $nombre, $categoria, $linea, $descripcion, $bajo_stock, $stock, $sobre_stock) {
+    function update_producto($id, $codigo, $nombre, $categoria, $linea, $descripcion, $bajo_stock, $stock, $sobre_stock) {
         $data = array(
             "codigo_producto" => $codigo,
             "nombre_producto" => $nombre,
@@ -289,7 +325,7 @@ class modelo extends CI_Model {
 //**********REPORTES**********
 
     //REPORTES DIARIOS
-    
+
     function diario_dc($fecha) {
         $this->db->select('*');
         $this->db->from('detalle_compra');
@@ -321,7 +357,7 @@ class modelo extends CI_Model {
         $this->db->where('venta.fecha_venta', $fecha);
         return $this->db->get();
     }
-    
+
     function diario_rv($fecha) {
         $this->db->select('*');
         $this->db->select_sum('cantidad', 'productos');
@@ -331,7 +367,7 @@ class modelo extends CI_Model {
         $this->db->group_by('venta.id_venta');
         return $this->db->get();
     }
-    
+
     function diario_pc($fecha) {
         $this->db->select('*');
         $this->db->select_sum('cantidad', 'productos');
@@ -344,7 +380,7 @@ class modelo extends CI_Model {
         $this->db->group_by('producto.codigo_producto');
         return $this->db->get();
     }
-    
+
     function diario_pv($fecha) {
         $this->db->select('*');
         $this->db->select_sum('cantidad', 'productos');
@@ -357,9 +393,9 @@ class modelo extends CI_Model {
         $this->db->group_by('producto.codigo_producto');
         return $this->db->get();
     }
-    
+
     //REPORTES MENSUALES
-    
+
     function mensual_rc($mes, $ano) {
         $this->db->select('*');
         $this->db->select_sum('cantidad', 'productos');
@@ -370,7 +406,7 @@ class modelo extends CI_Model {
         $this->db->group_by('compra.id_compra');
         return $this->db->get();
     }
-    
+
     function mensual_rv($mes, $ano) {
         $this->db->select('*');
         $this->db->select_sum('cantidad', 'productos');
@@ -381,7 +417,7 @@ class modelo extends CI_Model {
         $this->db->group_by('venta.id_venta');
         return $this->db->get();
     }
-    
+
     function mensual_pc($mes, $ano) {
         $this->db->select('*');
         $this->db->select_sum('cantidad', 'productos');
@@ -395,7 +431,7 @@ class modelo extends CI_Model {
         $this->db->group_by('producto.codigo_producto');
         return $this->db->get();
     }
-    
+
     function mensual_pv($mes, $ano) {
         $this->db->select('*');
         $this->db->select_sum('cantidad', 'productos');
@@ -409,11 +445,11 @@ class modelo extends CI_Model {
         $this->db->group_by('producto.codigo_producto');
         return $this->db->get();
     }
-    
+
     //REPORTES SEMANALES
     
     //REPORTES ANUALES
-    
+
     function anual_rc($ano) {
         $this->db->select('*');
         $this->db->select_sum('cantidad', 'productos');
@@ -423,7 +459,7 @@ class modelo extends CI_Model {
         $this->db->group_by('compra.id_compra');
         return $this->db->get();
     }
-    
+
     function anual_rv($ano) {
         $this->db->select('*');
         $this->db->select_sum('cantidad', 'productos');
@@ -433,7 +469,7 @@ class modelo extends CI_Model {
         $this->db->group_by('venta.id_venta');
         return $this->db->get();
     }
-    
+
     function anual_pc($ano) {
         $this->db->select('*');
         $this->db->select_sum('cantidad', 'productos');
@@ -446,7 +482,7 @@ class modelo extends CI_Model {
         $this->db->group_by('producto.codigo_producto');
         return $this->db->get();
     }
-    
+
     function anual_pv($ano) {
         $this->db->select('*');
         $this->db->select_sum('cantidad', 'productos');
@@ -459,9 +495,9 @@ class modelo extends CI_Model {
         $this->db->group_by('producto.codigo_producto');
         return $this->db->get();
     }
-    
+
     //REPORTES STOCK
-    
+
     function r_bajo() {
         $this->db->select('*');
         $this->db->from('producto');
@@ -471,7 +507,7 @@ class modelo extends CI_Model {
         $this->db->where('bajo_stock > stock_producto');
         return $this->db->get();
     }
-    
+
     function r_sobre() {
         $this->db->select('*');
         $this->db->from('producto');
@@ -481,5 +517,5 @@ class modelo extends CI_Model {
         $this->db->where('sobre_stock < stock_producto');
         return $this->db->get();
     }
-    
+
 }

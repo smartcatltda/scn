@@ -400,6 +400,7 @@ function inicio()
 }
 function ventas()
 {
+    mantener_venta();
     $("#inicio").hide('fast');
     $("#compras").hide('fast');
     $("#inventario").hide('fast');
@@ -408,6 +409,7 @@ function ventas()
 }
 function compras()
 {
+    mantener_compra();
     $("#inicio").hide('fast');
     $("#ventas").hide('fast');
     $("#inventario").hide('fast');
@@ -432,6 +434,24 @@ function reportes()
 }
 
 //**********COMPRAS**********
+function mantener_compra() {
+    $.post(base_url + "controlador/mantener_compra", {},
+            function (datos) {
+                foco('c_codigo_producto');
+                $("#c_bt_cerrar_compra").removeAttr("disabled");
+                $("#c_bt_cerrar_compra").button("refresh");
+                $("#c_bt_cargar").removeAttr("disabled");
+                $("#c_bt_cargar").button("refresh");
+                $("#c_bt_limpiar").removeAttr("disabled");
+                $("#c_bt_limpiar").button("refresh");
+                $("#c_bt_crear_compra").attr("disabled", true);
+                $("#c_bt_crear_compra").button("refresh");
+                $('#c_codigo_producto').attr('readonly', false);
+                $('#c_num_compra').val(datos.id);
+            }, "json"
+            );
+}
+
 function crear_compra() {
     $.post(base_url + "controlador/crear_compra", {},
             function (datos) {
@@ -528,6 +548,16 @@ function eliminar_compra(id, codigo, cantidad) {
 }
 
 function cerrar_compra() {
+    var num_compra = $("#c_num_compra").val();
+    $.post(base_url + "controlador/cerrar_compra", {num_compra: num_compra},
+    function (datos) {
+        if (datos.valor == 1) {
+            $("#msg").hide();
+            $("#msg").html("<label>Compra Cerrada!</label>");
+            $("#msg").css("color", "#55FF00").show('fade', 'slow').delay(3000).hide('fade', 'slow');
+        }
+    }, "json"
+            );
     limpiar_compra();
     $("#lista_compra").hide();
     $("#c_num_compra").val("");
@@ -553,6 +583,24 @@ function limpiar_compra() {
 }
 
 //**********VENTAS**********
+function mantener_venta() {
+    $.post(base_url + "controlador/mantener_venta", {},
+            function (datos) {
+                $('#v_codigo_producto').attr('readonly', false);
+                foco('v_codigo_producto');
+                $("#v_bt_cerrar_venta").removeAttr("disabled");
+                $("#v_bt_cerrar_venta").button("refresh");
+                $("#v_bt_cargar").removeAttr("disabled");
+                $("#v_bt_cargar").button("refresh");
+                $("#v_bt_limpiar").removeAttr("disabled");
+                $("#v_bt_limpiar").button("refresh");
+                $("#v_bt_crear_venta").attr("disabled", true);
+                $("#v_bt_crear_venta").button("refresh");
+                $('#v_num_venta').val(datos.id);
+            }, "json"
+            );
+}
+
 function crear_venta() {
     $.post(base_url + "controlador/crear_venta", {},
             function (datos) {
@@ -656,6 +704,16 @@ function recargar_ventas() {
 }
 
 function cerrar_venta() {
+    var num_venta = $("#v_num_venta").val();
+    $.post(base_url + "controlador/cerrar_venta", {num_venta: num_venta},
+    function (datos) {
+        if (datos.valor == 1) {
+            $("#msg").hide();
+            $("#msg").html("<label>Venta Cerrada!</label>");
+            $("#msg").css("color", "#55FF00").show('fade', 'slow').delay(3000).hide('fade', 'slow');
+        }
+    }, "json"
+            );
     limpiar_venta();
     $("#lista_venta").hide();
     $("#v_num_venta").val("");
