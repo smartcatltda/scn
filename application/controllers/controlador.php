@@ -55,6 +55,11 @@ class controlador extends CI_Controller {
             $id_compra = $fila->id_compra;
         }
         echo json_encode(array("id" => $id_compra));
+    function c_busq_productos() {
+        $datos = $this->modelo->cargar_productos_activos();
+        $data ['cantidad'] = $datos->num_rows();
+        $data ['productos'] = $datos->result();
+        $this->load->view("c_busq_productos", $data);
     }
 
     function crear_compra() {
@@ -141,6 +146,11 @@ class controlador extends CI_Controller {
             $id_venta = $fila->id_venta;
         }
         echo json_encode(array("id" => $id_venta));
+    function busq_productos() {
+        $datos = $this->modelo->cargar_productos_activos();
+        $data ['cantidad'] = $datos->num_rows();
+        $data ['productos'] = $datos->result();
+        $this->load->view("busq_productos", $data);
     }
 
     function crear_venta() {
@@ -157,6 +167,7 @@ class controlador extends CI_Controller {
     function cargar_ventas() {
         $num_venta = $this->input->post('num_venta');
         $datos = $this->modelo->cargar_ventas($num_venta);
+        $data ['cantidad'] = $datos->num_rows();
         $data ['ventas'] = $datos->result();
         $this->load->view("lista_venta", $data);
     }
@@ -164,17 +175,10 @@ class controlador extends CI_Controller {
     function cargar_venta() {
         $codigo = $this->input->post('codigo');
         $cantidad = $this->input->post('cantidad');
-        $num_venta = $this->input->post('num_venta');
-        $stock = 0;
-        $dato = $this->modelo->seleccionar_producto($codigo)->result();
-        foreach ($dato as $fila) {
-            $stock = $fila->stock_producto;
-        }
-        $nuevo_stock = $stock - $cantidad;
-        if ($nuevo_stock >= 0) {
-            $this->modelo->insert_datalle_venta($codigo, $cantidad, $num_venta);
-        }
+        $num_venta = $this->input->post('num_venta');     
+        $this->modelo->insert_datalle_venta($codigo, $cantidad, $num_venta);
         $datos = $this->modelo->cargar_ventas($num_venta);
+        $data ['cantidad'] = $datos->num_rows();
         $data ['ventas'] = $datos->result();
         $this->load->view("lista_venta", $data);
     }
@@ -200,6 +204,7 @@ class controlador extends CI_Controller {
             }
         } else {
             $valor = 2;
+            $this->modelo->update_stock($codigo, $nuevo_stock);
         }
 
         echo json_encode(array("valor" => $valor, "diferencia" => $diferencia));

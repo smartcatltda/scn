@@ -84,6 +84,15 @@ class modelo extends CI_Model {
         return $this->db->get();
     }
     
+    function cargar_productos_activos() {
+        $this->db->select('*');
+        $this->db->from('producto');
+        $this->db->where('estado_producto', '0');
+        $this->db->join('categoria', 'producto.id_categoria = categoria.id_categoria');
+        $this->db->join('linea', 'producto.id_linea = linea.id_linea');
+        return $this->db->get();
+    }
+
     function cargar_ventas($num_venta) {
         $this->db->select('*');
         $this->db->where('id_venta', $num_venta);
@@ -182,6 +191,7 @@ class modelo extends CI_Model {
     function seleccionar_producto($codigo) {
         $this->db->select('*');
         $this->db->where('codigo_producto', $codigo);
+        $this->db->where('estado_producto', '0');
         $this->db->from('producto');
         $this->db->join('categoria', 'producto.id_categoria = categoria.id_categoria');
         $this->db->join('linea', 'producto.id_linea = linea.id_linea');
@@ -323,7 +333,6 @@ class modelo extends CI_Model {
     }
 
 //**********REPORTES**********
-
     //REPORTES DIARIOS
 
     function diario_dc($fecha) {
@@ -447,7 +456,6 @@ class modelo extends CI_Model {
     }
 
     //REPORTES SEMANALES
-    
     //REPORTES ANUALES
 
     function anual_rc($ano) {

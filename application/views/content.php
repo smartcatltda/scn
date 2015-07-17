@@ -7,6 +7,12 @@
         La compra realizada supero el indice de sobre stock del Producto.
     </p>
 </div>
+<div hidden id="dialog-stock" title="Stock Insuficiente">
+    <p>
+        <span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 50px 0;"></span>
+   Revise el inventario una vez concluida la venta.
+    </p>
+</div>
 <div hidden id="dialog-confirm" title="Alerta">
     <p><span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;"></span>El producto no se encuentra registrado.</p>
     <p>¿ Desea Registrarlo ?</p>
@@ -75,10 +81,15 @@
                         <button disabled id="c_bt_cargar" style="width: 110px; text-align: center">Cargar</button>
                     </td>
                 </tr>
+                <tr>
+                    <td colspan="2"><input type="text" readonly id="c_filtro" placeholder="Busqueda" value="" style="width: 250px; text-align: center" class="rounded"/></td>
+                    <td colspan="2"></td>
+                </tr>
             </tbody>
         </table>
         <br>
         <div style="margin-left: 2%;" hidden id="lista_compra"></div>
+        <div style="margin-left: 2%;" hidden id="c_busq_productos"></div>
     </div>
 
     <!--*************VENTAS***************-->
@@ -124,10 +135,18 @@
                         <button disabled id="v_bt_cargar" style="width: 110px; text-align: center">Cargar</button>
                     </td>
                 </tr>
+                <tr>
+                    <td colspan="2"><input type="text" readonly id="v_filtro" placeholder="Busqueda" value="" style="width: 250px; text-align: center" class="rounded"/></td>
+                    <td colspan="2"></td>
+                </tr>
+                <tr>
+                    <td colspan="6" style="height: 5px"></td>
+                </tr>
             </tbody>
         </table>
         <br>
         <div style="margin-left: 2%;" hidden id="lista_venta"></div>
+        <div style="margin-left: 2%;" hidden id="busq_productos"></div>
     </div>
 
     <!--*************INVENTARIO***************-->
