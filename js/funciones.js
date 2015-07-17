@@ -356,7 +356,7 @@ function conectar()
                 $("#contenido").show('fast');
                 $("#nombrelogin").html('<label>BIENVENIDA, YANET.</label>');
                 inicio();
-                $('audio')[0].play();
+//                $('audio')[0].play();
             }
         },
                 'json'
@@ -465,7 +465,9 @@ function mantener_compra() {
                 $("#c_bt_crear_compra").attr("disabled", true);
                 $("#c_bt_crear_compra").button("refresh");
                 $('#c_codigo_producto').attr('readonly', false);
+                $('#c_filtro').attr('readonly', false);
                 $('#c_num_compra').val(datos.id);
+                recargar_compras();
             }, "json"
             );
 }
@@ -509,7 +511,7 @@ function cargar_compra() {
                     if (datos.valor == 1) {
                         $("#dialog-message").html("<p><span class='ui-icon ui-icon-alert' style='float:left; margin:0 7px 50px 0;'></span> Sobre Stock de : " + datos.diferencia + " Unidades</p>");
                         $(function () {
-                            $('audio')[0].play();
+//                            $('audio')[0].play();
                             $("#dialog-message").dialog({
                                 modal: true,
                                 buttons: {
@@ -642,6 +644,7 @@ function mantener_venta() {
     $.post(base_url + "controlador/mantener_venta", {},
             function (datos) {
                 $('#v_codigo_producto').attr('readonly', false);
+                $('#v_filtro').attr('readonly', false);
                 foco('v_codigo_producto');
                 $("#v_bt_cerrar_venta").removeAttr("disabled");
                 $("#v_bt_cerrar_venta").button("refresh");
@@ -652,6 +655,7 @@ function mantener_venta() {
                 $("#v_bt_crear_venta").attr("disabled", true);
                 $("#v_bt_crear_venta").button("refresh");
                 $('#v_num_venta').val(datos.id);
+                recargar_ventas();
             }, "json"
             );
 }
@@ -696,7 +700,7 @@ function cargar_venta() {
                     if (datos.valor == 1) {
                         $("#dialog-message").html("<p><span class='ui-icon ui-icon-alert' style='float:left; margin:0 7px 50px 0;'></span>" + datos.diferencia + " Unidades Bajo el indice del Stock</p>");
                         $(function () {
-                            $('audio')[0].play();
+//                            $('audio')[0].play();
                             $("#dialog-message").dialog({
                                 modal: true,
                                 buttons: {
@@ -711,7 +715,7 @@ function cargar_venta() {
                     } else {
                         if (datos.valor == 2) {
                             $(function () {
-                                $('audio')[0].play();
+//                                $('audio')[0].play();
                                 $("#dialog-stock").dialog({
                                     modal: true,
                                     buttons: {

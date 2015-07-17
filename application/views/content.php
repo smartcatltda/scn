@@ -181,8 +181,8 @@
                     <tr>
                 <input type="text" hidden id="mp_id_codigo_producto" style="width: 1px;" />
                 <td><input type="text" id="mp_codigo_producto" placeholder="Escanee Cód Barras" style="width: 130px; text-align: center" class="rounded" maxlength="13" onkeypress="return validar_texto(event)" onkeyup="enter_mp_codigo(event)"/></td>
-                <td><input type="text" id="mp_nombre_producto" placeholder="Nombre del Poducto" style="width: 150px; text-align: center" class="rounded" onkeypress="enter_mp_nombre(event)"/></td>
-                <td><input type="text" id="mp_descripcion_producto" placeholder="Ingrese Descripción" style="width: 200px; text-align: center" class="rounded" onkeypress="enter_mp_desc(event)"/></td>
+                <td><input type="text" id="mp_nombre_producto" placeholder="Nombre del Poducto" style="width: 150px; text-align: center" class="rounded" maxlength="50" onkeypress="enter_mp_nombre(event)"/></td>
+                <td><input type="text" id="mp_descripcion_producto" placeholder="Ingrese Descripción" style="width: 200px; text-align: center" class="rounded" maxlength="200" onkeypress="enter_mp_desc(event)"/></td>
                 <td><select class="rounded" id="mp_categoria" style="width: 200px; text-align: center" onkeypress="enter_mp_cat(event)"/></td>
                 <td><select class="rounded" id="mp_linea" style="width: 100px; text-align: center"/></td>
                 <td style="text-align: right; width: 200px;">
@@ -226,11 +226,11 @@
                     </tr>
                     <tr>
                         <td style="text-align: left">Nombre: </td>
-                        <td><input type="text" id="ml_nombre_linea" placeholder="Nombre Línea" style="width: 200px; text-align: center" class="rounded" onkeypress="enter_ml_nombre(event)"/></td>
+                        <td><input type="text" id="ml_nombre_linea" placeholder="Nombre Línea" maxlength="50" style="width: 200px; text-align: center" class="rounded" onkeypress="enter_ml_nombre(event)"/></td>
                     </tr>
                     <tr>
                         <td style="text-align: left">Descripción: </td>
-                        <td><input type="text" id="ml_descripcion_linea" placeholder="Ingrese Descripción" style="width: 200px; text-align: center" class="rounded" onkeypress="enter_ml_desc(event)"/></td>
+                        <td><input type="text" id="ml_descripcion_linea" placeholder="Ingrese Descripción" maxlength="200" style="width: 200px; text-align: center" class="rounded" onkeypress="enter_ml_desc(event)"/></td>
                     </tr>
                     <tr>
                         <td colspan="2" style="height: 10px"></td>
@@ -261,11 +261,11 @@
                     </tr>
                     <tr>
                         <td style="text-align: left">Nombre: </td>
-                        <td><input type="text" id="mc_nombre_categoria" placeholder="Nombre Categoría" style="width: 200px; text-align: center" class="rounded" onkeypress="enter_mc_nombre(event)"/></td>
+                        <td><input type="text" id="mc_nombre_categoria" placeholder="Nombre Categoría" maxlength="50" style="width: 200px; text-align: center" class="rounded" onkeypress="enter_mc_nombre(event)"/></td>
                     </tr>
                     <tr>
                         <td style="text-align: left">Descripción: </td>
-                        <td><input type="text" id="mc_descripcion_categoria" placeholder="Ingrese Descripción" style="width: 200px; text-align: center" class="rounded" onkeypress="enter_mc_desc(event)"/></td>
+                        <td><input type="text" id="mc_descripcion_categoria" placeholder="Ingrese Descripción" maxlength="200" style="width: 200px; text-align: center" class="rounded" onkeypress="enter_mc_desc(event)"/></td>
                     </tr>
                     <tr>
                         <td colspan="2" style="height: 10px"></td>

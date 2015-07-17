@@ -16,7 +16,7 @@
 
         <script type="text/javascript">var base_url = "<?= base_url(); ?>";</script>
 
-    <audio id="au_gato" src="audio/gato.mp3" preload></audio>
+    <!--<audio id="au_gato" src="audio/kasumi.mp3" preload></audio>-->
 
 </head>
 <header>

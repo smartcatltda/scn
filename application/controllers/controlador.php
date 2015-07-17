@@ -55,6 +55,8 @@ class controlador extends CI_Controller {
             $id_compra = $fila->id_compra;
         }
         echo json_encode(array("id" => $id_compra));
+    }
+    
     function c_busq_productos() {
         $datos = $this->modelo->cargar_productos_activos();
         $data ['cantidad'] = $datos->num_rows();
@@ -146,6 +148,8 @@ class controlador extends CI_Controller {
             $id_venta = $fila->id_venta;
         }
         echo json_encode(array("id" => $id_venta));
+    }
+    
     function busq_productos() {
         $datos = $this->modelo->cargar_productos_activos();
         $data ['cantidad'] = $datos->num_rows();
