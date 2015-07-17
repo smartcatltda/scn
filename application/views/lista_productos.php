@@ -1,5 +1,5 @@
 <?php if ($cantidad == 0): ?>
-    <label>No se ha agregado ningun producto!</label>
+    <label>No se ha agregado ningún producto!</label>
 <?php else: ?>
     <table cellspacing="0" cellpadding="0" border="0" style=" width: 983px; ">
         <tr>
