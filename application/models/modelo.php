@@ -3,6 +3,7 @@
 class modelo extends CI_Model {
 
 //CONEXION
+    
     function conectar($user, $pass) {
         $this->db->select('*');
         $this->db->where('user', $user);
@@ -11,6 +12,14 @@ class modelo extends CI_Model {
     }
 
 //**********COMPRAS**********
+    
+    function mantener_compra() {
+        $this->db->select('*');
+        $this->db->from('compra');
+        $this->db->where('estado_compra', 0);
+        return $this->db->get();
+    }
+    
     function crear_compra($fecha, $hora) {
         $data = array(
             "fecha_compra" => $fecha,
@@ -57,7 +66,24 @@ class modelo extends CI_Model {
         return 0;
     }
 
+    function cerrar_compra($num_compra) {
+        $data = array(
+            "estado_compra" => 1,
+        );
+        $this->db->where('id_compra', $num_compra);
+        $this->db->update('compra', $data);
+        return 0;
+    }
+
 //**********VENTAS**********
+    
+    function mantener_venta() {
+        $this->db->select('*');
+        $this->db->from('venta');
+        $this->db->where('estado_venta', 0);
+        return $this->db->get();
+    }
+    
     function cargar_productos_activos() {
         $this->db->select('*');
         $this->db->from('producto');
@@ -105,7 +131,17 @@ class modelo extends CI_Model {
         return 0;
     }
 
+    function cerrar_venta($num_venta) {
+        $data = array(
+            "estado_venta" => 1,
+        );
+        $this->db->where('id_venta', $num_venta);
+        $this->db->update('venta', $data);
+        return 0;
+    }
+    
 //**********PRODUCTOS**********
+    
     function cargar_productos() {
         $this->db->select('*');
         $this->db->from('producto');
