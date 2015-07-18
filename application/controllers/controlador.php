@@ -48,7 +48,7 @@ class controlador extends CI_Controller {
     }
 
 //**********COMPRAS**********
-    
+
     function mantener_compra() {
         $datos = $this->modelo->mantener_compra()->result();
         foreach ($datos as $fila) {
@@ -56,7 +56,7 @@ class controlador extends CI_Controller {
         }
         echo json_encode(array("id" => $id_compra));
     }
-    
+
     function c_busq_productos() {
         $datos = $this->modelo->cargar_productos_activos();
         $data ['cantidad'] = $datos->num_rows();
@@ -81,6 +81,7 @@ class controlador extends CI_Controller {
         $num_compra = $this->input->post('num_compra');
         $this->modelo->insert_datalle_compra($codigo, $cantidad, $num_compra);
         $datos = $this->modelo->cargar_compras($num_compra);
+        $data ['cantidad'] = $datos->num_rows();
         $data ['compras'] = $datos->result();
         $this->load->view("lista_compra", $data);
     }
@@ -127,6 +128,7 @@ class controlador extends CI_Controller {
     function cargar_compras() {
         $num_compra = $this->input->post('num_compra');
         $datos = $this->modelo->cargar_compras($num_compra);
+        $data ['cantidad'] = $datos->num_rows();
         $data ['compras'] = $datos->result();
         $this->load->view("lista_compra", $data);
     }
@@ -141,7 +143,7 @@ class controlador extends CI_Controller {
     }
 
 //**********VENTAS**********
-    
+
     function mantener_venta() {
         $datos = $this->modelo->mantener_venta()->result();
         foreach ($datos as $fila) {
@@ -149,7 +151,7 @@ class controlador extends CI_Controller {
         }
         echo json_encode(array("id" => $id_venta));
     }
-    
+
     function busq_productos() {
         $datos = $this->modelo->cargar_productos_activos();
         $data ['cantidad'] = $datos->num_rows();
@@ -179,7 +181,7 @@ class controlador extends CI_Controller {
     function cargar_venta() {
         $codigo = $this->input->post('codigo');
         $cantidad = $this->input->post('cantidad');
-        $num_venta = $this->input->post('num_venta');     
+        $num_venta = $this->input->post('num_venta');
         $this->modelo->insert_datalle_venta($codigo, $cantidad, $num_venta);
         $datos = $this->modelo->cargar_ventas($num_venta);
         $data ['cantidad'] = $datos->num_rows();
