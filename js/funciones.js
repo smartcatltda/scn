@@ -455,21 +455,21 @@ function reportes()
 function mantener_compra() {
     $.post(base_url + "controlador/mantener_compra", {},
             function (datos) {
-                if (datos.valor != 0){
-                foco('c_codigo_producto');
-                $("#c_bt_cerrar_compra").removeAttr("disabled");
-                $("#c_bt_cerrar_compra").button("refresh");
-                $("#c_bt_cargar").removeAttr("disabled");
-                $("#c_bt_cargar").button("refresh");
-                $("#c_bt_limpiar").removeAttr("disabled");
-                $("#c_bt_limpiar").button("refresh");
-                $("#c_bt_crear_compra").attr("disabled", true);
-                $("#c_bt_crear_compra").button("refresh");
-                $('#c_codigo_producto').attr('readonly', false);
-                $('#c_filtro').attr('readonly', false);
-                $('#c_num_compra').val(datos.id);
-                recargar_compras();
-            }
+                if (datos.valor != 0) {
+                    foco('c_codigo_producto');
+                    $("#c_bt_cerrar_compra").removeAttr("disabled");
+                    $("#c_bt_cerrar_compra").button("refresh");
+                    $("#c_bt_cargar").removeAttr("disabled");
+                    $("#c_bt_cargar").button("refresh");
+                    $("#c_bt_limpiar").removeAttr("disabled");
+                    $("#c_bt_limpiar").button("refresh");
+                    $("#c_bt_crear_compra").attr("disabled", true);
+                    $("#c_bt_crear_compra").button("refresh");
+                    $('#c_codigo_producto').attr('readonly', false);
+                    $('#c_filtro').attr('readonly', false);
+                    $('#c_num_compra').val(datos.id);
+                    recargar_compras();
+                }
             }, "json"
             );
 }
@@ -645,21 +645,21 @@ function limpiar_compra() {
 function mantener_venta() {
     $.post(base_url + "controlador/mantener_venta", {},
             function (datos) {
-                if (datos.valor != 0){
-                $('#v_codigo_producto').attr('readonly', false);
-                $('#v_filtro').attr('readonly', false);
-                foco('v_codigo_producto');
-                $("#v_bt_cerrar_venta").removeAttr("disabled");
-                $("#v_bt_cerrar_venta").button("refresh");
-                $("#v_bt_cargar").removeAttr("disabled");
-                $("#v_bt_cargar").button("refresh");
-                $("#v_bt_limpiar").removeAttr("disabled");
-                $("#v_bt_limpiar").button("refresh");
-                $("#v_bt_crear_venta").attr("disabled", true);
-                $("#v_bt_crear_venta").button("refresh");
-                $('#v_num_venta').val(datos.id);
-                recargar_ventas();
-            }
+                if (datos.valor != 0) {
+                    $('#v_codigo_producto').attr('readonly', false);
+                    $('#v_filtro').attr('readonly', false);
+                    foco('v_codigo_producto');
+                    $("#v_bt_cerrar_venta").removeAttr("disabled");
+                    $("#v_bt_cerrar_venta").button("refresh");
+                    $("#v_bt_cargar").removeAttr("disabled");
+                    $("#v_bt_cargar").button("refresh");
+                    $("#v_bt_limpiar").removeAttr("disabled");
+                    $("#v_bt_limpiar").button("refresh");
+                    $("#v_bt_crear_venta").attr("disabled", true);
+                    $("#v_bt_crear_venta").button("refresh");
+                    $('#v_num_venta').val(datos.id);
+                    recargar_ventas();
+                }
             }, "json"
             );
 }
@@ -886,6 +886,7 @@ function insert_producto() {
                             $("#mp_bajo_stock").val("0");
                             $("#mp_sobre_stock").val("0");
                             cargar_productos();
+                            foco('mp_codigo_producto');
                         } else {
                             $("#msg").css("color", "#FF0000").show('pulsate', 'slow').delay(3000).hide('fade', 'slow');
                         }
@@ -1050,6 +1051,7 @@ function insert_linea() {
                 $("#ml_id_linea").val("");
                 $("#ml_nombre_linea").val("");
                 $("#ml_descripcion_linea").val("");
+                foco('ml_nombre_linea');
             } else {
                 $("#msg").css("color", "#FF0000").show('pulsate', 'slow').delay(3000).hide('fade', 'slow');
             }
@@ -1162,6 +1164,7 @@ function insert_categoria() {
                 $("#mc_id_categoria").val("");
                 $("#mc_nombre_categoria").val("");
                 $("#mc_descripcion_categoria").val("");
+                foco('mc_nombre_categoria');
             } else {
                 $("#msg").css("color", "#FF0000").show('pulsate', 'slow').delay(3000).hide('fade', 'slow');
             }
