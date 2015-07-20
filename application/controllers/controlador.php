@@ -87,6 +87,7 @@ class controlador extends CI_Controller {
         $num_compra = $this->input->post('num_compra');
         $this->modelo->insert_datalle_compra($codigo, $cantidad, $num_compra);
         $datos = $this->modelo->cargar_compras($num_compra);
+        $data ['cantidad'] = $datos->num_rows();
         $data ['compras'] = $datos->result();
         $this->load->view("lista_compra", $data);
     }
@@ -133,6 +134,7 @@ class controlador extends CI_Controller {
     function cargar_compras() {
         $num_compra = $this->input->post('num_compra');
         $datos = $this->modelo->cargar_compras($num_compra);
+        $data ['cantidad'] = $datos->num_rows();
         $data ['compras'] = $datos->result();
         $this->load->view("lista_compra", $data);
     }
