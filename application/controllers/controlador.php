@@ -50,11 +50,17 @@ class controlador extends CI_Controller {
 //**********COMPRAS**********
 
     function mantener_compra() {
-        $datos = $this->modelo->mantener_compra()->result();
-        foreach ($datos as $fila) {
-            $id_compra = $fila->id_compra;
+        $valor = 0;
+        $id_compra = 0;
+        $abierta = $this->modelo->mantener_compra()->num_rows();
+        if ($abierta != 0) {
+            $datos = $this->modelo->mantener_compra()->result();
+            foreach ($datos as $fila) {
+                $id_compra = $fila->id_compra;
+                $valor = 1;
+            }
         }
-        echo json_encode(array("id" => $id_compra));
+        echo json_encode(array("id" => $id_compra, "valor" => $valor));
     }
 
     function c_busq_productos() {
@@ -145,11 +151,17 @@ class controlador extends CI_Controller {
 //**********VENTAS**********
 
     function mantener_venta() {
-        $datos = $this->modelo->mantener_venta()->result();
-        foreach ($datos as $fila) {
-            $id_venta = $fila->id_venta;
+        $valor = 0;
+        $id_venta = 0;
+        $abierta = $this->modelo->mantener_venta()->num_rows();
+        if ($abierta != 0) {
+            $datos = $this->modelo->mantener_venta()->result();
+            foreach ($datos as $fila) {
+                $id_venta = $fila->id_venta;
+                $valor = 1;
+            }
         }
-        echo json_encode(array("id" => $id_venta));
+        echo json_encode(array("id" => $id_venta, "valor" => $valor));
     }
 
     function busq_productos() {

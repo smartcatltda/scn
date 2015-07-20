@@ -455,6 +455,7 @@ function reportes()
 function mantener_compra() {
     $.post(base_url + "controlador/mantener_compra", {},
             function (datos) {
+                if (datos.valor != 0){
                 foco('c_codigo_producto');
                 $("#c_bt_cerrar_compra").removeAttr("disabled");
                 $("#c_bt_cerrar_compra").button("refresh");
@@ -468,6 +469,7 @@ function mantener_compra() {
                 $('#c_filtro').attr('readonly', false);
                 $('#c_num_compra').val(datos.id);
                 recargar_compras();
+            }
             }, "json"
             );
 }
@@ -643,6 +645,7 @@ function limpiar_compra() {
 function mantener_venta() {
     $.post(base_url + "controlador/mantener_venta", {},
             function (datos) {
+                if (datos.valor != 0){
                 $('#v_codigo_producto').attr('readonly', false);
                 $('#v_filtro').attr('readonly', false);
                 foco('v_codigo_producto');
@@ -656,6 +659,7 @@ function mantener_venta() {
                 $("#v_bt_crear_venta").button("refresh");
                 $('#v_num_venta').val(datos.id);
                 recargar_ventas();
+            }
             }, "json"
             );
 }
