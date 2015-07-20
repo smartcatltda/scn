@@ -28,7 +28,7 @@
         <br>
         <button id="conectar">Conectar</button>
         <hr style="width: 35%;"><br>
-        <h4 id="caplock" style="visibility:hidden">Bloqueo de mayúscula activado</h4>
+        <h3 id="caplock" style="visibility:hidden; color: red;">Bloqueo de mayúscula activado</h3>
     </div>
     
 </div>

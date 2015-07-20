@@ -552,6 +552,7 @@ function recargar_compras() {
         function (ruta, datos) {
             $("#lista_compra").show();
             $("#lista_compra").html(ruta, datos);
+            $("#c_busq_productos").hide();
         });
     }
 }
@@ -775,6 +776,7 @@ function recargar_ventas() {
         function (ruta, datos) {
             $("#lista_venta").show();
             $("#lista_venta").html(ruta, datos);
+            $("#busq_productos").hide();
         });
     }
 }
