@@ -640,6 +640,7 @@ function limpiar_compra() {
     $("#c_filtro").val("");
     $("#c_busq_productos").hide();
     foco('c_codigo_producto');
+    recargar_compras();
 }
 
 //**********VENTAS**********
@@ -832,6 +833,7 @@ function cerrar_venta() {
     $("#v_bt_cerrar_venta").attr("disabled", true);
     $("#v_bt_cerrar_venta").button("refresh");
     $('#v_filtro').attr('readonly', true);
+    recargar_ventas();
 }
 
 function limpiar_venta() {
@@ -864,6 +866,7 @@ function cargar_productos()
 
 function insert_producto() {
     var codigo = $("#mp_codigo_producto").val();
+    var lenght = $("#mp_codigo_producto").val().length;
     var nombre = $("#mp_nombre_producto").val();
     var categoria = $("#mp_categoria").val();
     var linea = $("#mp_linea").val();
@@ -871,7 +874,7 @@ function insert_producto() {
     var stock = $("#mp_stock_producto").val();
     var bajo = $("#mp_bajo_stock").val();
     var sobre = $("#mp_sobre_stock").val();
-    if (codigo != "") {
+    if (length == 13) {
         if (nombre != "") {
             if (categoria != 0) {
                 if (linea != 0) {
@@ -911,7 +914,7 @@ function insert_producto() {
         }
     } else {
         $("#msg").hide();
-        $("#msg").html("<label>Ingrese Código de Producto!</label>");
+        $("#msg").html("<label>El Código del Producto debe tener 13 dígitos!</label>");
         $("#msg").css("color", "#FF0000").show('pulsate', 'slow').delay(3000).hide('fade', 'slow');
     }
 }

@@ -186,9 +186,9 @@
                 <td><select class="rounded" id="mp_categoria" style="width: 200px; text-align: center" onkeypress="enter_mp_cat(event)"/></td>
                 <td><select class="rounded" id="mp_linea" style="width: 100px; text-align: center"/></td>
                 <td style="text-align: right; width: 200px;">
-                    <input type="number" value="0" id="mp_stock_producto" style="width: 40px; text-align: center" class="rounded"/>&nbsp;
-                    <input type="number" value="0" id="mp_bajo_stock" style="width: 40px; text-align: center" class="rounded"/>&nbsp;
-                    <input type="number" value="0" id="mp_sobre_stock" style="width: 40px; text-align: center" class="rounded"/>
+                    <input type="number" value="0" id="mp_stock_producto" min="0" style="width: 40px; text-align: center" class="rounded"/>&nbsp;
+                    <input type="number" value="0" id="mp_bajo_stock" min="0" style="width: 40px; text-align: center" class="rounded"/>&nbsp;
+                    <input type="number" value="0" id="mp_sobre_stock" min="0" style="width: 40px; text-align: center" class="rounded"/>
                 </td>
                 </tr>
                 <tr>
