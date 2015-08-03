@@ -221,6 +221,7 @@ class modelo extends CI_Model {
     function cargar_lineas_activas() {
         $this->db->select('*');
         $this->db->from('linea');
+        $this->db->order_by("nombre_linea", "asc");
         return $this->db->get();
     }
 
@@ -279,6 +280,7 @@ class modelo extends CI_Model {
     function cargar_categorias_activas() {
         $this->db->select('*');
         $this->db->from('categoria');
+        $this->db->order_by("nombre_categoria", "asc");
         return $this->db->get();
     }
 

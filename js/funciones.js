@@ -216,7 +216,7 @@ $(document).ready(function () {
         }
     });
 
-    $("#mp_categoria").change(function () {
+    $("#mp_categoria").click(function () {
         if ($(this).val() != 0)
         {
             var id = $(this).val();
@@ -235,24 +235,26 @@ $(document).ready(function () {
         }
     });
 
-    $("#mp_linea").change(function () {
-        if ($(this).val() != 0)
-        {
-            var id = $(this).val();
-            var nombre = "";
-            $.post(base_url + "controlador/seleccionar_linea",
-                    {id: id},
-            function (datos) {
-                nombre = datos.nombre;
-                $("#tabla_productos tbody>tr").hide();
-                $("#tabla_productos td:contains-ci('" + nombre + "')").parent("tr").show();
-            }, 'json');
-        }
-        else
-        {
-            $("#tabla_productos tbody>tr").show();
-        }
-    });
+//    $("#mp_linea").click(function () {
+//        if ($(this).val() != 0)
+//        {
+//            var id = $(this).val();
+//            var nombre = "";
+//            $.post(base_url + "controlador/seleccionar_linea",
+//                    {id: id},
+//            function (datos) {
+//                nombre = datos.nombre;
+//                $("#tabla_productos tbody>tr").hide();
+//                $("#tabla_productos td:contains-ci('" + nombre + "')").parent("tr").show();
+//            }, 'json');
+//        }
+//        else
+//        {
+//            $("#tabla_productos tbody>tr").show();
+//        }
+//    });
+
+
     //**********LINEAS**********
     cargar_lineas();
     cargar_lineas_activas();
@@ -854,6 +856,25 @@ function limpiar_venta() {
 
 //**********PRODUCTOS**********
 
+function mp_linea() {
+    if ($("#mp_linea").val() != 0)
+    {
+        var id = $("#mp_linea").val();
+        var nombre = "";
+        $.post(base_url + "controlador/seleccionar_linea",
+                {id: id},
+        function (datos) {
+            nombre = datos.nombre;
+            $("#tabla_productos tbody>tr").hide();
+            $("#tabla_productos td:contains-ci('" + nombre + "')").parent("tr").show();
+        }, 'json');
+    }
+    else
+    {
+        $("#tabla_productos tbody>tr").show();
+    }
+}
+
 function cargar_productos()
 {
     $.post(
@@ -874,7 +895,7 @@ function insert_producto() {
     var stock = $("#mp_stock_producto").val();
     var bajo = $("#mp_bajo_stock").val();
     var sobre = $("#mp_sobre_stock").val();
-    if (length == 13) {
+    if (lenght == 13) {
         if (nombre != "") {
             if (categoria != 0) {
                 if (linea != 0) {
@@ -885,8 +906,8 @@ function insert_producto() {
                         if (data.valor == 1) {
                             $("#msg").css("color", "#55FF00").show('fade', 'slow').delay(3000).hide('fade', 'slow');
                             $("#mp_codigo_producto").val("");
-                            $("#mp_nombre_producto").val("");
-                            $("#mp_descripcion_producto").val("");
+//                            $("#mp_nombre_producto").val("");
+//                            $("#mp_descripcion_producto").val("");
                             $("#mp_stock_producto").val("0");
                             $("#mp_bajo_stock").val("0");
                             $("#mp_sobre_stock").val("0");

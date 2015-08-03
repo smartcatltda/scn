@@ -184,7 +184,7 @@
                 <td><input type="text" id="mp_nombre_producto" placeholder="Nombre del Poducto" style="width: 150px; text-align: center" class="rounded" maxlength="50" onkeypress="enter_mp_nombre(event)"/></td>
                 <td><input type="text" id="mp_descripcion_producto" placeholder="Ingrese Descripción" style="width: 200px; text-align: center" class="rounded" maxlength="200" onkeypress="enter_mp_desc(event)"/></td>
                 <td><select class="rounded" id="mp_categoria" style="width: 200px; text-align: center" onkeypress="enter_mp_cat(event)"/></td>
-                <td><select class="rounded" id="mp_linea" style="width: 100px; text-align: center"/></td>
+                <td><select class="rounded" id="mp_linea" style="width: 100px; text-align: center" onclick="mp_linea()"/></td>
                 <td style="text-align: right; width: 200px;">
                     <input type="number" value="0" id="mp_stock_producto" min="0" style="width: 40px; text-align: center" class="rounded"/>&nbsp;
                     <input type="number" value="0" id="mp_bajo_stock" min="0" style="width: 40px; text-align: center" class="rounded"/>&nbsp;
