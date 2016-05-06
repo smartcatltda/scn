@@ -44,6 +44,7 @@ $(document).ready(function () {
     });
     $("#c_bt_limpiar").button().click(function () {
         limpiar_compra();
+        recargar_compras();
     });
     $("#c_codigo_producto").keyup(function () {
         if ($(this).val() != "")
@@ -118,6 +119,7 @@ $(document).ready(function () {
     });
     $("#v_bt_limpiar").button().click(function () {
         limpiar_venta();
+        recargar_ventas();
     });
     $("#v_codigo_producto").keyup(function () {
         if ($(this).val() != "")
@@ -494,6 +496,14 @@ function crear_compra() {
             }, "json"
             );
 }
+
+function enter_cargar_compra(e)
+{
+    tecla = (document.all) ? e.keyCode : e.which;
+    if (tecla == 13)
+        cargar_compra();
+}
+
 function cargar_compra() {
     var codigo = $("#c_codigo_producto").val();
     var cantidad = $('#c_cantidad').val();
@@ -547,6 +557,7 @@ function cargar_compra() {
         $("#msg").css("color", "#FF0000").show('pulsate', 'slow').delay(3000).hide('fade', 'slow');
     }
 }
+
 function recargar_compras() {
     var num_compra = $("#c_num_compra").val();
     if (num_compra != "") {
@@ -558,6 +569,7 @@ function recargar_compras() {
         });
     }
 }
+
 function c_busq_producto() {
     $.post(
             base_url + "controlador/c_busq_productos",
@@ -585,6 +597,7 @@ function  selec_c_busq_producto(codigo)
     }, "json"
             );
 }
+
 function eliminar_compra(id, codigo, cantidad) {
     var id = id;
     var codigo = codigo;
@@ -627,7 +640,7 @@ function cerrar_compra() {
     $("#c_bt_cerrar_compra").attr("disabled", true);
     $("#c_bt_cerrar_compra").button("refresh");
     $('#c_filtro').attr('readonly', true);
-
+    recargar_compras();
 }
 
 function limpiar_compra() {
@@ -642,7 +655,7 @@ function limpiar_compra() {
     $("#c_filtro").val("");
     $("#c_busq_productos").hide();
     foco('c_codigo_producto');
-    recargar_compras();
+    
 }
 
 //**********VENTAS**********
@@ -652,7 +665,7 @@ function mantener_venta() {
                 if (datos.valor != 0) {
                     $('#v_codigo_producto').attr('readonly', false);
                     $('#v_filtro').attr('readonly', false);
-                    foco('v_codigo_producto');
+                    foco('v_filtro');
                     $("#v_bt_cerrar_venta").removeAttr("disabled");
                     $("#v_bt_cerrar_venta").button("refresh");
                     $("#v_bt_cargar").removeAttr("disabled");
@@ -673,7 +686,7 @@ function crear_venta() {
             function (datos) {
                 $('#v_codigo_producto').attr('readonly', false);
                 $('#v_filtro').attr('readonly', false);
-                foco('v_codigo_producto');
+                foco('v_filtro');
                 $("#v_bt_cerrar_venta").removeAttr("disabled");
                 $("#v_bt_cerrar_venta").button("refresh");
                 $("#v_bt_cargar").removeAttr("disabled");
@@ -685,6 +698,13 @@ function crear_venta() {
                 $('#v_num_venta').val(datos.id);
             }, "json"
             );
+}
+
+function enter_cargar_venta(e)
+{
+    tecla = (document.all) ? e.keyCode : e.which;
+    if (tecla == 13)
+        cargar_venta();
 }
 
 function cargar_venta() {
@@ -715,7 +735,7 @@ function cargar_venta() {
                                     Ok: function () {
                                         $("#dialog-message").show();
                                         $(this).dialog("close");
-                                        foco('v_codigo_producto');
+                                        foco('v_filtro');
                                     }
                                 }
                             });
@@ -767,7 +787,7 @@ function eliminar_venta(id, codigo, cantidad) {
             $("#msg").css("color", "#55FF00").show('fade', 'slow').delay(3000).hide('fade', 'slow');
             recargar_ventas();
             cargar_productos();
-            foco('v_codigo_producto');
+            foco('v_filtro');
         }
     }, "json"
             );
@@ -849,7 +869,7 @@ function limpiar_venta() {
     $("#v_cantidad").val("");
     $("#v_filtro").val("");
     $("#busq_productos").hide();
-    foco('v_codigo_producto');
+    foco('v_filtro');
 }
 
 //**********INVENTARIO**********

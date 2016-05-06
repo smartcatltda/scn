@@ -1,5 +1,3 @@
-<!--//Login-->
-
 <div id="msg" class="msg centrar"></div>
 <div hidden id="dialog-message" title="Alerta de Stock">
     <p>
@@ -17,7 +15,7 @@
     <p><span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;"></span>El producto no se encuentra registrado.</p>
     <p>¿ Desea Registrarlo ?</p>
 </div>
-
+<!--//Login-->
 <div id="login" class="centrar" hidden>
     
     <div class="login" style="z-index: -1">
@@ -72,7 +70,7 @@
                     <td><input type="text" readonly id="c_descripcion_producto" placeholder="Descripción" style="width: 200px; text-align: center" class="rounded"/></td>
                     <td><input type="text" readonly id="c_categoria" placeholder="Categoría" style="width: 130px; text-align: center" class="rounded"/></td>
                     <td><input type="text" readonly id="c_linea" placeholder="Línea" style="width: 130px; text-align: center" class="rounded"/></td>
-                    <td><input type="text" readonly id="c_cantidad" placeholder="Cantidad" style="width: 100px; text-align: center" class="rounded" onkeypress="return validar_texto(event)"/></td>
+                    <td><input type="text" readonly id="c_cantidad" placeholder="Cantidad" style="width: 100px; text-align: center" class="rounded" onkeypress="return validar_texto(event), enter_cargar_compra(event)"/></td>
                 </tr>
                 <tr>
                     <td colspan="5"></td>
@@ -125,7 +123,7 @@
                     <td><input type="text" readonly id="v_descripcion_producto" placeholder="Descripción" style="width: 200px; text-align: center" class="rounded"/></td>
                     <td><input type="text" readonly id="v_categoria" placeholder="Categoría" style="width: 130px; text-align: center" class="rounded"/></td>
                     <td><input type="text" readonly id="v_linea" placeholder="Línea" style="width: 130px; text-align: center" class="rounded"/></td>
-                    <td><input type="text" readonly id="v_cantidad" placeholder="Cantidad" style="width: 100px; text-align: center" class="rounded" onkeypress="return validar_texto(event)"/></td>
+                    <td><input type="text" readonly id="v_cantidad" placeholder="Cantidad" style="width: 100px; text-align: center" class="rounded" onkeypress="return validar_texto(event), enter_cargar_venta(event)"/></td>
 
                 </tr>
                 <tr>
@@ -195,7 +193,7 @@
                     <td colspan="4"></td>
                     <td colspan="2" rowspan="2" align="right">
                         <button id="mp_bt_insert" style="width: 110px; text-align: center">Guardar</button>
-                        <button id="mp_bt_update" style="width: 110px; text-align: center">Editar</button>
+                        <button id="mp_bt_update" style="width: 110px; text-align: center">Modificar</button>
                     </td>
                 </tr>
                 <tr>

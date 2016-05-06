@@ -106,9 +106,9 @@ class controlador extends CI_Controller {
         }
         $nuevo_stock = $stock + $cantidad;
         $this->modelo->update_stock($codigo, $nuevo_stock);
-        if ($sobre_stock < $nuevo_stock) {
-            $diferencia = $nuevo_stock - $sobre_stock;
-            $valor = 1;
+        if ($sobre_stock != 0 && $sobre_stock < $nuevo_stock) {
+                $diferencia = $nuevo_stock - $sobre_stock;
+                $valor = 1;
         }
         echo json_encode(array("valor" => $valor, "diferencia" => $diferencia));
     }
@@ -214,15 +214,14 @@ class controlador extends CI_Controller {
             $bajo_stock = $fila->bajo_stock;
         }
         $nuevo_stock = $stock - $cantidad;
+        $this->modelo->update_stock($codigo, $nuevo_stock);
         if ($nuevo_stock >= 0) {
-            $this->modelo->update_stock($codigo, $nuevo_stock);
             if ($bajo_stock > $nuevo_stock) {
                 $diferencia = $nuevo_stock - $bajo_stock;
                 $valor = 1;
             }
         } else {
             $valor = 2;
-            $this->modelo->update_stock($codigo, $nuevo_stock);
         }
 
         echo json_encode(array("valor" => $valor, "diferencia" => $diferencia));
